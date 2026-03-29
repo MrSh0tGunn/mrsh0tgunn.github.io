@@ -14,3 +14,20 @@
 .home-button:hover {
   background: #1a252f;
 }
+
+#ar-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #2c3e50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#ar-button:hover {
+  background: #1a252f;
+}
