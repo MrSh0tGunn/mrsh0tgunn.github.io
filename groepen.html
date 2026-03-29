@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Groepen</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fa;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .group-card {
+      display: block;
+      text-decoration: none;
+      color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: 0.2s;
+    }
+
+    .group-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .group-image {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .group-content {
+      padding: 15px;
+    }
+
+    .group-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .group-members {
+      font-size: 0.95em;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    .teamA { background: rgb(60,110,90); }
+    .teamB { background: rgb(57,70,104); }
+    .teamC { background: rgb(140,90,60); }
+    .teamD { background: rgb(90,70,120); }
+  </style>
+</head>
+
+<body>
+  <h1>Overzicht Groepen</h1>
+
+  <div class="container">
+    <div class="groups-grid">
+
+      <a class="group-card teamA" href="team_A.html">
+        <img class="group-image" src="images/team_A.jpg" alt="Groep A">
+        <div class="group-content">
+          <div class="group-title">Groep A</div>
+          <div class="group-members">
+            member_1<br>
+            member_2<br>
+            member_3<br>
+            member_4
+          </div>
+        </div>
+      </a>
+
+      <a class="group-card teamB" href="team_B.html">
+        <img class="group-image" src="images/team_B.jpg" alt="Groep B">
+        <div class="group-content">
+          <div class="group-title">Groep B</div>
+          <div class="group-members">
+            member_1<br>
+            member_2<br>
+            member_3<br>
+            member_4
+          </div>
+        </div>
+      </a>
+
+      <a class="group-card teamC" href="team_C.html">
+        <img class="group-image" src="images/team_C.jpg" alt="Groep C">
+        <div class="group-content">
+          <div class="group-title">Groep C</div>
+          <div class="group-members">
+            member_1<br>
+            member_2<br>
+            member_3<br>
+            member_4
+          </div>
+        </div>
+      </a>
+
+      <a class="group-card teamD" href="team_D.html">
+        <img class="group-image" src="images/team_D.jpg" alt="Groep D">
+        <div class="group-content">
+          <div class="group-title">Groep D</div>
+          <div class="group-members">
+            member_1<br>
+            member_2<br>
+            member_3<br>
+            member_4
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="menu.js"></script>
+</body>
+</html>
