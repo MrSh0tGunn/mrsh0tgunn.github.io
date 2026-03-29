@@ -62,13 +62,13 @@ h1 {
 }
 
 .subprojects {
-  margin-left: 20px; /* inspringen */
+  padding-left: 20px; /* inspringen */
 }
 
 .link.sub {
-  background-color: #6b8e7a;
-  font-size: 0.9em;
-  padding: 8px;
+  display: block;
+  width: calc(100% - 20px); /* zorgt dat hij effectief inspringt */
+  opacity: 0.85; /* optioneel */
 }
 
 .link:hover {
