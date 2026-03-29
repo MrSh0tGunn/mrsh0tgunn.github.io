@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const arButton = document.getElementById("ar-button");
 
-  if (!arButton) return; // voorkomt errors op pagina's zonder knop
+  if (!arButton) return;
 
   arButton.addEventListener("click", function (e) {
 
@@ -18,9 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!supported) {
       e.preventDefault();
+      e.stopImmediatePropagation(); // 🔥 BELANGRIJK
       alert("AR/VR werkt enkel op:\n- Safari (iPhone)\n- Chrome (Android)");
     }
 
-  });
+  }, true); // 🔥 useCapture = true
 
 });
