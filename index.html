@@ -44,6 +44,7 @@ h1 {
   transition: 0.2s;
   color: white;
   font-weight: 500;
+  box-sizing: border-box;
 }
 
 /* kleuren per team */
@@ -52,24 +53,15 @@ h1 {
 .teamC { background: rgb(140,90,60); }
 .teamD { background: rgb(90,70,120); }
 
-.main-project {
-  background-color: #2f4f4f;
-  color: white;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.subprojects {
-  padding-left: 25px;
-  border-left: 2px solid rgba(0,0,0,0.1);
+.link.main {
+  opacity: 1;
 }
 
 .link.sub {
-  display: block;
-  width: calc(100% - 20px); /* zorgt dat hij effectief inspringt */
-  opacity: 0.85; /* optioneel */
+  margin-left: 30px;
+  width: calc(100% - 30px);
+  opacity: 0.8;
+  font-size: 0.95em;
 }
 
 .link:hover {
