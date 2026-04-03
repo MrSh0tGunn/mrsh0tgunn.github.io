@@ -25,3 +25,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }, true); // 🔥 useCapture = true
 
 });
+
+
+//////////// ZOOMFACTOR//////////////
+
+
+const viewer = document.querySelector("model-viewer");
+
+let zoomFactor = 1;
+
+// detecteer Alt toets
+window.addEventListener("keydown", (e) => {
+  if (e.altKey) zoomFactor = 0.05; // trager zoomen
+});
+
+window.addEventListener("keyup", () => {
+  zoomFactor = 0.2; // normaal
+});
+
+// scroll override
+viewer.addEventListener("wheel", (event) => {
+  event.preventDefault();
+
+  const delta = event.deltaY * zoomFactor;
+
+  viewer.cameraOrbit = `${viewer.getCameraOrbit().theta}rad ${viewer.getCameraOrbit().phi}rad ${viewer.getCameraOrbit().radius + delta}m`;
+});
