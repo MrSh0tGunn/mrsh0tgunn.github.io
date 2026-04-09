@@ -6,23 +6,118 @@
   <title>Groep A: Kasteel</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-<body>
-  
-  <h1>Groep A: Kasteel</h1>
 
-  <model-viewer
-    src="./models/GROEP_A_D5_KASTEEL.glb"
-    camera-controls
-    ar
-    ar-modes="scene-viewer webxr quick-look"
-    orientation = "0deg -90deg 0deg"
-    min-camera-orbit = "auto auto 0.2m"
-    style="width:100%; height:600px; background:rgb(159,51,54);">
-    <button slot="ar-button" id="ar-button">
-    View in AR / VR
-    </button>
-  </model-viewer>
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+  <!-- HEADER -->
+  <div style="padding:20px 20px 10px 20px;">
+    <h1 style="margin:0;">Groep A: Kasteel</h1>
+  </div>
+
+  <!-- VIEWER -->
+  <div style="padding:0 20px;">
+    <model-viewer
+      src="./models/GROEP_A_D5_KASTEEL.glb"
+      camera-controls
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      orientation="0deg -90deg 0deg"
+      min-camera-orbit="auto auto 0.2m"
+      style="width:100%; height:600px; background:rgb(159,51,54); border-radius:10px;">
+      
+      <button slot="ar-button" id="ar-button">
+        View in AR / VR
+      </button>
+
+    </model-viewer>
+  </div>
+
+  <!-- ONDERBALK -->
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    margin-top:10px;
+    gap:20px;
+    flex-wrap:wrap;
+  ">
+    
+    <div style="font-size:14px; color:#555;">
+      Tip: Houd <b>ALT</b> ingedrukt om trager te zoomen met scroll
+    </div>
+
+    <a href="./models/GROEP_A_D5_KASTEEL.glb" download>
+      <button style="
+        padding:10px 15px;
+        background:#333;
+        color:white;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        Download 3D model (.glb)
+      </button>
+    </a>
+
+  </div>
+
+  <!-- INFOSECTIE -->
+  <div style="
+    display:flex;
+    gap:20px;
+    padding:0 20px 30px 20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  ">
+
+    <!-- LINKER KOLOM -->
+    <div style="
+      flex:2;
+      min-width:300px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Beschrijving van de site</h2>
+
+      <p style="text-align: justify;">
+        De ruïnes van het zogenaamde Frankische kasteel van Lerna bevinden zich op een licht verhoogde locatie nabij de kustvlakte van de Argolische Golf. Het gaat om restanten van een middeleeuwse versterking, vermoedelijk gebouwd tijdens de Frankische periode (13e–15e eeuw), toen delen van Griekenland onder West-Europese invloed stonden na de Vierde Kruistocht.
+      </p>
+
+      <p style="text-align: justify;">
+        De overgebleven structuren bestaan uit ruwe natuurstenen muren en funderingen, die wijzen op een compacte verdedigingssite of wachttoren. De strategische ligging bood waarschijnlijk zicht op de omliggende vlakte en belangrijke verbindingsroutes, wat essentieel was voor controle en verdediging van het gebied. Hoewel slechts fragmenten bewaard zijn gebleven, is de oorspronkelijke functie als versterkte post nog duidelijk herkenbaar.
+      </p>
+
+      <p style="text-align: justify;">
+        Vandaag vormt de site een archeologisch en landschappelijk element dat het historisch gebruik van het terrein illustreert. De combinatie van ruïnes en open terrein benadrukt de relatie tussen topografie, zichtlijnen en militaire architectuur in de middeleeuwen.
+      </p>
+
+    </div>
+
+    <!-- RECHTER KOLOM -->
+    <div style="
+      flex:1;
+      min-width:250px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Technische gegevens</h2>
+      <p><b>Aantal foto's:</b> ...</p>
+      <p><b>GSD:</b> ...</p>
+      <p><b>Camera:</b> ...</p>
+      <p><b>Resolutie:</b> ...</p>
+      <p><b>Bestandsgrootte:</b> ...</p>
+      <p><b>Software:</b> ...</p>
+      <p><b>Opnamedatum:</b> ...</p>
+    </div>
+
+  </div>
+
   <script src="script.js"></script>
   <script src="menu.js"></script>
+
 </body>
 </html>

@@ -3,27 +3,116 @@
 <head>
   <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
-  <title>Groep A: Grot</title>
+  <title>Groep A: Kapelletje</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-<body>
-  
-  <h1>Groep A: Grot</h1>
 
-  <model-viewer
-    src="./models/GROEP_A_D2_GROT.glb"
-    camera-controls
-    ar
-    ar-modes="scene-viewer webxr quick-look"
-    orientation = "90deg -90deg 180deg"
-    min-camera-orbit = "auto auto 0.2m"
-    style="width:100%; height:600px; background:rgb(159,51,54);">
+<body style="margin:0; font-family:Arial, sans-serif;">
 
-    <button slot="ar-button" id="ar-button">
-    View in AR / VR
-    </button>
-  </model-viewer>
+  <!-- HEADER -->
+  <div style="padding:20px 20px 10px 20px;">
+    <h1 style="margin:0;">Groep A: Kapelletje</h1>
+  </div>
+
+  <!-- VIEWER -->
+  <div style="padding:0 20px;">
+    <model-viewer
+      src="./models/GROEP_A_D1_KERKJE.glb"
+      camera-controls
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      orientation="0deg 0deg 0deg"
+      min-camera-orbit="auto auto 0.2m"
+      style="width:100%; height:600px; background:rgb(159,51,54); border-radius:10px;">
+      
+      <button slot="ar-button" id="ar-button">
+        View in AR / VR
+      </button>
+
+    </model-viewer>
+  </div>
+
+  <!-- ONDERBALK -->
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    margin-top:10px;
+    gap:20px;
+    flex-wrap:wrap;
+  ">
+    
+    <div style="font-size:14px; color:#555;">
+      Tip: Houd <b>ALT</b> ingedrukt om trager te zoomen met scroll
+    </div>
+
+    <a href="./models/GROEP_A_D1_KERKJE.glb" download>
+      <button style="
+        padding:10px 15px;
+        background:#333;
+        color:white;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        Download 3D model (.glb)
+      </button>
+    </a>
+
+  </div>
+
+  <!-- INFOSECTIE -->
+  <div style="
+    display:flex;
+    gap:20px;
+    padding:0 20px 30px 20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  ">
+
+    <!-- LINKER KOLOM -->
+    <div style="
+      flex:2;
+      min-width:300px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Beschrijving van de site</h2>
+
+      <p style="text-align: justify;">
+        De kapel van Agios Georgios, gelegen in het heuvelachtige landschap nabij Nafplio, is een typisch voorbeeld van een kleine Grieks-orthodoxe plattelandskapel. Het gebouw is eenvoudig opgebouwd uit natuursteen en afgewerkt met een traditioneel rood pannendak, wat goed aansluit bij de lokale bouwstijl. De kapel ligt op een relatief afgelegen locatie, omgeven door droge vegetatie en kronkelende wegen, wat wijst op een eerder lokaal dan toeristisch gebruik. Dergelijke kapellen worden in Griekenland vaak opgericht als uiting van religieuze toewijding of als dankbetuiging, en zijn meestal verbonden aan de verering van een specifieke heilige, in dit geval Sint-Joris (Agios Georgios).
+      </p>
+
+      <p style="text-align: justify;">
+        De aanwezigheid van een overdekte buitenruimte met zitgelegenheid suggereert dat de kapel niet alleen voor individuele bezinning wordt gebruikt, maar ook voor kleine samenkomsten, bijvoorbeeld tijdens religieuze feestdagen zoals die van Sint-Joris op 23 april. Hoewel het gebouw geen uitgesproken monumentale of historische kenmerken vertoont, draagt het bij aan het culturele en religieuze landschap van de regio en illustreert het de sterke lokale verankering van het orthodoxe geloof.
+      </p>
+    </div>
+
+    <!-- RECHTER KOLOM -->
+    <div style="
+      flex:1;
+      min-width:250px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Technische gegevens</h2>
+      <p><b>Aantal foto's:</b> ...</p>
+      <p><b>GSD:</b> ...</p>
+      <p><b>Camera:</b> ...</p>
+      <p><b>Resolutie:</b> ...</p>
+      <p><b>Bestandsgrootte:</b> ...</p>
+      <p><b>Software:</b> ...</p>
+      <p><b>Opnamedatum:</b> ...</p>
+    </div>
+
+  </div>
+
   <script src="script.js"></script>
   <script src="menu.js"></script>
+
 </body>
 </html>

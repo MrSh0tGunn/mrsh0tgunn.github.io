@@ -6,23 +6,118 @@
   <title>Groep A: Torentje</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-<body>
-  
-  <h1>Groep A: Torentje</h1>
 
-  <model-viewer
-    src="./models/GROEP_A_D5_TORENTJE.glb"
-    camera-controls
-    ar
-    ar-modes="scene-viewer webxr quick-look"
-    orientation = "60deg 0deg 0deg"
-    min-camera-orbit = "auto auto 0.2m"
-    style="width:100%; height:600px; background:rgb(159,51,54);">
-    <button slot="ar-button" id="ar-button">
-    View in AR / VR
-    </button>
-  </model-viewer>
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+  <!-- HEADER -->
+  <div style="padding:20px 20px 10px 20px;">
+    <h1 style="margin:0;">Groep A: Torentje</h1>
+  </div>
+
+  <!-- VIEWER -->
+  <div style="padding:0 20px;">
+    <model-viewer
+      src="./models/GROEP_A_D5_TORENTJE.glb"
+      camera-controls
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      orientation="60deg 0deg 0deg"
+      min-camera-orbit="auto auto 0.2m"
+      style="width:100%; height:600px; background:rgb(159,51,54); border-radius:10px;">
+      
+      <button slot="ar-button" id="ar-button">
+        View in AR / VR
+      </button>
+
+    </model-viewer>
+  </div>
+
+  <!-- ONDERBALK -->
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    margin-top:10px;
+    gap:20px;
+    flex-wrap:wrap;
+  ">
+    
+    <div style="font-size:14px; color:#555;">
+      Tip: Houd <b>ALT</b> ingedrukt om trager te zoomen met scroll
+    </div>
+
+    <a href="./models/GROEP_A_D5_TORENTJE.glb" download>
+      <button style="
+        padding:10px 15px;
+        background:#333;
+        color:white;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        Download 3D model (.glb)
+      </button>
+    </a>
+
+  </div>
+
+  <!-- INFOSECTIE -->
+  <div style="
+    display:flex;
+    gap:20px;
+    padding:0 20px 30px 20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  ">
+
+    <!-- LINKER KOLOM -->
+    <div style="
+      flex:2;
+      min-width:300px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Beschrijving van de site</h2>
+
+      <p style="text-align: justify;">
+        Dit torentje bevindt zich op korte afstand van de ruïnes van het Frankische kasteel van Lerna en maakt vermoedelijk deel uit van hetzelfde historische netwerk van versterkingen. De structuur bestaat uit natuursteen en is gedeeltelijk bewaard gebleven, waarbij vooral de verticale wandstructuren nog duidelijk zichtbaar zijn. De compacte vorm en beperkte oppervlakte wijzen op een functie als wachttoren of uitkijkpost.
+      </p>
+
+      <p style="text-align: justify;">
+        De ligging op een licht verhoogde positie binnen het landschap biedt een goed zicht op de omliggende vlakte en verbindingsroutes. Dit suggereert dat het torentje gebruikt werd voor observatie en communicatie, mogelijk in combinatie met andere nabijgelegen structuren zoals het kasteel. Dergelijke torens maakten vaak deel uit van een defensief systeem waarbij visueel contact tussen posten essentieel was.
+      </p>
+
+      <p style="text-align: justify;">
+        Vandaag vormt de site een kleinschalig maar betekenisvol relict van middeleeuwse militaire infrastructuur. De combinatie van ruïneuze muren en open terrein benadrukt opnieuw de relatie tussen topografie en strategisch ruimtegebruik.
+      </p>
+
+    </div>
+
+    <!-- RECHTER KOLOM -->
+    <div style="
+      flex:1;
+      min-width:250px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Technische gegevens</h2>
+      <p><b>Aantal foto's:</b> ...</p>
+      <p><b>GSD:</b> ...</p>
+      <p><b>Camera:</b> ...</p>
+      <p><b>Resolutie:</b> ...</p>
+      <p><b>Bestandsgrootte:</b> ...</p>
+      <p><b>Software:</b> ...</p>
+      <p><b>Opnamedatum:</b> ...</p>
+    </div>
+
+  </div>
+
   <script src="script.js"></script>
   <script src="menu.js"></script>
+
 </body>
 </html>

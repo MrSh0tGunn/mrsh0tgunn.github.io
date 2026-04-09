@@ -6,23 +6,118 @@
   <title>Groep A: Route naar kapel</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-<body>
-  
-  <h1>Groep A: Route naar kapel</h1>
 
-  <model-viewer
-    src="./models/GROEP_A_D7_ROUTE_NAAR_KAPEL.glb"
-    camera-controls
-    ar
-    ar-modes="scene-viewer webxr quick-look"
-    orientation = "10deg 190deg 90deg"
-    min-camera-orbit = "auto auto 0.2m"
-    style="width:100%; height:600px; background:rgb(159,51,54);">
-    <button slot="ar-button" id="ar-button">
-    View in AR / VR
-    </button>
-  </model-viewer>
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+  <!-- HEADER -->
+  <div style="padding:20px 20px 10px 20px;">
+    <h1 style="margin:0;">Groep A: Route naar kapel</h1>
+  </div>
+
+  <!-- VIEWER -->
+  <div style="padding:0 20px;">
+    <model-viewer
+      src="./models/GROEP_A_D7_ROUTE_NAAR_KAPEL.glb"
+      camera-controls
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      orientation="10deg 190deg 90deg"
+      min-camera-orbit="auto auto 0.2m"
+      style="width:100%; height:600px; background:rgb(159,51,54); border-radius:10px;">
+      
+      <button slot="ar-button" id="ar-button">
+        View in AR / VR
+      </button>
+
+    </model-viewer>
+  </div>
+
+  <!-- ONDERBALK -->
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    margin-top:10px;
+    gap:20px;
+    flex-wrap:wrap;
+  ">
+    
+    <div style="font-size:14px; color:#555;">
+      Tip: Houd <b>ALT</b> ingedrukt om trager te zoomen met scroll
+    </div>
+
+    <a href="./models/GROEP_A_D7_ROUTE_NAAR_KAPEL.glb" download>
+      <button style="
+        padding:10px 15px;
+        background:#333;
+        color:white;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        Download 3D model (.glb)
+      </button>
+    </a>
+
+  </div>
+
+  <!-- INFOSECTIE -->
+  <div style="
+    display:flex;
+    gap:20px;
+    padding:0 20px 30px 20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  ">
+
+    <!-- LINKER KOLOM -->
+    <div style="
+      flex:2;
+      min-width:300px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Beschrijving van de site</h2>
+
+      <p style="text-align: justify;">
+        Deze site toont de toegangsroute naar een kleine kapel, gelegen op een rotsachtige uitloper langs de kust nabij Asini. De route bestaat uit een smal pad en een reeks trappen die zich aanpassen aan het natuurlijke reliëf van het terrein. Door de ligging op een steile helling vormt de route een duidelijke verbinding tussen het hoger gelegen landschap en de kapel aan zee.
+      </p>
+
+      <p style="text-align: justify;">
+        De combinatie van natuurlijke rotsformaties en aangelegde elementen zoals trappen en paden illustreert hoe infrastructuur op kleinschalige wijze wordt geïntegreerd in een moeilijk toegankelijk terrein. Dergelijke routes hebben vaak zowel een praktische als een symbolische functie, waarbij de fysieke toegang tot de kapel gepaard gaat met een zekere beleving van het landschap.
+      </p>
+
+      <p style="text-align: justify;">
+        De ligging langs de kust zorgt voor sterke visuele relaties met de zee en de omliggende rotsformaties. Hierdoor vormt de route niet alleen een functioneel traject, maar ook een belangrijk onderdeel van de ruimtelijke en landschappelijke ervaring van de site.
+      </p>
+
+    </div>
+
+    <!-- RECHTER KOLOM -->
+    <div style="
+      flex:1;
+      min-width:250px;
+      background:#f5f5f5;
+      padding:20px;
+      border-radius:10px;
+      box-sizing:border-box;
+    ">
+      <h2 style="margin-top:0;">Technische gegevens</h2>
+      <p><b>Aantal foto's:</b> ...</p>
+      <p><b>GSD:</b> ...</p>
+      <p><b>Camera:</b> ...</p>
+      <p><b>Resolutie:</b> ...</p>
+      <p><b>Bestandsgrootte:</b> ...</p>
+      <p><b>Software:</b> ...</p>
+      <p><b>Opnamedatum:</b> ...</p>
+    </div>
+
+  </div>
+
   <script src="script.js"></script>
   <script src="menu.js"></script>
+
 </body>
 </html>
