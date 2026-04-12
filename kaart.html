@@ -1813,7 +1813,117 @@
             
     
             marker_cluster_be435eecd03e469665038270daf9c79b.addTo(map_f224b4e4e41b79784910c428ac22a97c);
+
+
         
+</script>
+<script>
+    // === FILTERMENU GROEPEN ===
+
+    // Kleur -> groep
+    const kleurNaarGroep = {
+        darkred: "A",
+        darkblue: "B",
+        darkgreen: "C",
+        orange: "D"
+    };
+
+    // Alle markers per groep verzamelen
+    const markersPerGroep = {
+        A: [],
+        B: [],
+        C: [],
+        D: []
+    };
+
+    marker_cluster_be435eecd03e469665038270daf9c79b.eachLayer(function(layer) {
+        if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options) {
+            const kleur = layer.options.icon.options.markerColor;
+            const groep = kleurNaarGroep[kleur];
+            if (groep) {
+                markersPerGroep[groep].push(layer);
+            }
+        }
+    });
+
+    // Menu toevoegen aan de pagina
+    const filterBox = document.createElement("div");
+    filterBox.id = "groep-filter";
+    filterBox.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 99999;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            font-family: Arial, sans-serif;
+            min-width: 180px;
+        ">
+            <strong style="display:block; margin-bottom:8px;">Toon groepen</strong>
+
+            <label style="display:block; margin-bottom:4px;">
+                <input type="checkbox" class="groep-checkbox" value="A"> Groep A
+            </label>
+            <label style="display:block; margin-bottom:4px;">
+                <input type="checkbox" class="groep-checkbox" value="B"> Groep B
+            </label>
+            <label style="display:block; margin-bottom:4px;">
+                <input type="checkbox" class="groep-checkbox" value="C"> Groep C
+            </label>
+            <label style="display:block; margin-bottom:8px;">
+                <input type="checkbox" class="groep-checkbox" value="D"> Groep D
+            </label>
+
+            <button id="resetGroepen" style="
+                width:100%;
+                border:none;
+                background:#f0f0f0;
+                padding:6px 8px;
+                border-radius:6px;
+                cursor:pointer;
+            ">
+                Alles tonen
+            </button>
+        </div>
+    `;
+    document.body.appendChild(filterBox);
+
+    function updateGroepFilter() {
+        const aangevinkt = Array.from(document.querySelectorAll(".groep-checkbox:checked"))
+            .map(cb => cb.value);
+
+        // Eerst cluster leegmaken
+        marker_cluster_be435eecd03e469665038270daf9c79b.clearLayers();
+
+        // Als niets aangevinkt is -> alles tonen
+        if (aangevinkt.length === 0) {
+            Object.values(markersPerGroep).forEach(groepMarkers => {
+                groepMarkers.forEach(marker => {
+                    marker_cluster_be435eecd03e469665038270daf9c79b.addLayer(marker);
+                });
+            });
+            return;
+        }
+
+        // Anders enkel geselecteerde groepen tonen
+        aangevinkt.forEach(groep => {
+            markersPerGroep[groep].forEach(marker => {
+                marker_cluster_be435eecd03e469665038270daf9c79b.addLayer(marker);
+            });
+        });
+    }
+
+    document.querySelectorAll(".groep-checkbox").forEach(cb => {
+        cb.addEventListener("change", updateGroepFilter);
+    });
+
+    document.getElementById("resetGroepen").addEventListener("click", function() {
+        document.querySelectorAll(".groep-checkbox").forEach(cb => cb.checked = false);
+        updateGroepFilter();
+    });
 </script>
     
 </html>
