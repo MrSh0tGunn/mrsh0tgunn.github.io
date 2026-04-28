@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Groep C: Kapel</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</head>
+
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+  <!-- HEADER -->
+  <div style="padding:20px 20px 10px 20px;">
+    <h1 style="margin:0;">Groep C: Kapel</h1>
+  </div>
+
+  <!-- VIEWER -->
+  <div style="padding:0 20px;">
+    <model-viewer
+      src="./models/GROEP_C_D4_KAPEL.glb"
+      camera-controls
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      orientation="0deg 0deg 0deg"
+      min-camera-orbit="auto auto 0.2m"
+      style="width:100%; height:600px; background:rgb(101, 115, 31); border-radius:10px;">
+
+      <button slot="ar-button" id="ar-button">
+        View in AR / VR
+      </button>
+
+    </model-viewer>
+  </div>
+
+  <!-- ONDERBALK -->
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    margin-top:10px;
+    gap:20px;
+    flex-wrap:wrap;
+  ">
+    
+    <div style="font-size:14px; color:#555;">
+      Tip: Houd <b>ALT</b> ingedrukt om trager te zoomen met scroll
+    </div>
+
+    <a href="./models/GROEP_C_D4_KAPEL.glb" download>
+      <button style="
+        padding:10px 15px;
+        background:#333;
+        color:white;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;">
+        Download 3D model (.glb)
+      </button>
+    </a>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script src="menu.js"></script>
+
+</body>
+</html>
