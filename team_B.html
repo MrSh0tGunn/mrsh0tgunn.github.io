@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Groep B: Teampagina</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .page-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px 60px 20px;
+      box-sizing: border-box;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 3rem;
+      margin: 0 0 30px 0;
+    }
+
+    .intro-card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 35px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .intro-card h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .team-list {
+      margin: 0;
+      padding-left: 22px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .intro-text p {
+      margin-top: 0;
+      margin-bottom: 14px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .sites-title {
+      font-size: 2rem;
+      margin: 50px 0 20px 0;
+      text-align: center;
+    }
+
+    .site-block {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+      align-items: center;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+    }
+
+    .site-block.reverse {
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .site-image-wrap {
+      height: 100%;
+      min-height: 320px;
+    }
+
+    .site-image {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .site-text {
+      padding: 28px;
+      box-sizing: border-box;
+    }
+
+    .site-text h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 1.7rem;
+    }
+
+    .site-text p {
+      margin: 0 0 18px 0;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .viewer-link {
+      display: inline-block;
+      text-decoration: none;
+      background: rgb(159, 51, 54);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .viewer-link:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .site-block,
+      .site-block.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .site-image-wrap,
+      .site-image {
+        min-height: 240px;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+
+
+  <div class="page-container">
+    <h1 class="page-title">Groep B</h1>
+
+    <section class="intro-card">
+      <div class="intro-grid">
+        
+
+        <div class="intro-text">
+          <h2>Welkom</h2>
+          <p>
+           Wij zijn Thibo, Lucas, Rune en Noor. Om onze data voor te stellen verwijzen we u graag door naar onze eigen website. Klik op onderstaande link:
+          </p>
+          <p>
+            <a href="tlrn.be/greece">Klik hier</a> 
+          </p>
+          
+          <p>
+            
+          </p>
+        </div>
+      </div>
+    </section>
+
+<script src="script.js"></script>
+<script src="menu.js"></script>
+</body>
+</html>
