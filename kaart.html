@@ -1,1929 +1,457 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Leaflet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <!-- MarkerCluster -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+
+    <!-- Bootstrap + AwesomeMarkers -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
-    
-            <meta name="viewport" content="width=device-width,
-                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-            <style>
-                #map_f224b4e4e41b79784910c428ac22a97c {
-                    position: relative;
-                    width: 100.0%;
-                    height: 100.0%;
-                    left: 0.0%;
-                    top: 0.0%;
-                }
-                .leaflet-container { font-size: 1rem; }
-            </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-            <style>html, body {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            </style>
-
-            <style>
-                /* Zorg dat de kaart onder het menu blijft */
-                .folium-map,
-                #map_f224b4e4e41b79784910c428ac22a97c,
-                .leaflet-container {
-                    z-index: 1;
-                }
-
-                /* Zorg dat het dropdownmenu altijd klikbaar boven de kaart staat */
-                .dropdown,
-                .dropdown-menu,
-                #menu-container,
-                .menu-container,
-                .custom-menu {
-                    position: fixed !important;
-                    top: 15px;
-                    right: 15px;
-                    z-index: 99999 !important;
-                    pointer-events: auto !important;
-                }
-                </style>
-
-            <style>#map {
-                position:absolute;
-                top:0;
-                bottom:0;
-                right:0;
-                left:0;
-                }
-            </style>
-
-            <script>
-                L_NO_TOUCH = false;
-                L_DISABLE_3D = false;
-            </script>
-
-        
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        /* Kaart onder menu houden */
+        .leaflet-container { z-index: 1; font-size: 1rem; }
+    </style>
 </head>
-    
+
 <body>
-    
-            
-            <div class="folium-map" id="map_f224b4e4e41b79784910c428ac22a97c" ></div>
-   
+    <div id="map"></div>
 </body>
-   
+
 <script>
-    
-    
-            var map_f224b4e4e41b79784910c428ac22a97c = L.map(
-                "map_f224b4e4e41b79784910c428ac22a97c",
-                {
-                    center: [37.55227265, 22.80720105],
-                    crs: L.CRS.EPSG3857,
-                    ...{
-  "zoom": 10,
-  "zoomControl": true,
-  "preferCanvas": false,
-}
+// =============================================================
+//  ✏️  ALLE MARKERS — hier aanpassen, toevoegen of verwijderen
+//
+//  Elke marker heeft:
+//    dag:      dag nummer (string, bv. "1")
+//    naam:     naam van de locatie
+//    groep:    "A", "B", "C" of "D"
+//    leden:    namen van de groepsleden
+//    lat/lng:  coördinaten
+//    foto:     bestandsnaam in de map "fotos/"
+//    link:     volledige URL naar het 3D model of de kaart
+//    linkTekst: tekst van de knop (bv. "Bekijk 3D model" of "Bekijk Kaart")
+//
+//  ❌ Een marker verwijderen: verwijder het hele blok van { ... },
+//  ➕ Een marker toevoegen: kopieer een blok en pas de waarden aan
+// =============================================================
 
-                }
-            );
-            L.control.scale().addTo(map_f224b4e4e41b79784910c428ac22a97c);
+const MARKERS = [
 
-            
+    // ── DAG 1 ──────────────────────────────────────────────────
+    {
+        dag: "1", naam: "Kapel_1", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.529295, lng: 22.839265,
+        foto: "fotos/dag1_kapel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D1_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "1", naam: "Kapel_1", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.529295, lng: 22.839265,
+        foto: "fotos/dag1_kapel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D1_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+ 
+    {
+        dag: "1", naam: "kerkje_1", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.53135, lng: 22.84516,
+        foto: "fotos/dag1_kerkje.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D1_KERKJE.html",
+        linkTekst: "Bekijk 3D model"
+    },
 
-        
-    
-            var tile_layer_840fa1ffde98c13136476d02650288ad = L.tileLayer(
-                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-                {
-  "minZoom": 0,
-  "maxZoom": 20,
-  "maxNativeZoom": 20,
-  "noWrap": false,
-  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
-  "subdomains": "abcd",
-  "detectRetina": false,
-  "tms": false,
-  "opacity": 1,
-}
+    // ── DAG 2 ──────────────────────────────────────────────────
+    {
+        dag: "2", naam: "Franchthi Cave", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.42257, lng: 23.13147,
+        foto: "fotos/dag2_Franchthi_Cave.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D2_GROT.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "2", naam: "Franchthi Cave", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.42257, lng: 23.13147,
+        foto: "fotos/dag2_Franchthi_Cave.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D2_GROT.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "2", naam: "Caves of the Twins Dolines", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.4701, lng: 23.16787,
+        foto: "fotos/dag2_Caves_of_the_Twins_Dolines.jpeg",
+        link: "GROEP_C_D2_KRATER.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "2", naam: "Caves of the Twins Dolines", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.4701, lng: 23.16787,
+        foto: "fotos/dag2_Caves_of_the_Twins_Dolines.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D2_KRATER.html",
+        linkTekst: "Bekijk 3D model"
+    },
 
-            );
-        
-    
-            tile_layer_840fa1ffde98c13136476d02650288ad.addTo(map_f224b4e4e41b79784910c428ac22a97c);
-        
-    
-            var marker_cluster_be435eecd03e469665038270daf9c79b = L.markerClusterGroup(
-                {
-}
-            );
-        
-    
-            var marker_5b1ab1dd24e6ed8d7561eb5e87ce4be9 = L.marker(
-                [37.529295, 22.839265],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_5017fd48db16c7612934ee14d131d851 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_f498ea3971ec1192f32bc9a393bfadc1 = L.popup({
-  "maxWidth": 250,
+    // ── DAG 3 ──────────────────────────────────────────────────
+    {
+        dag: "3", naam: "Railway Station Nemea", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.78997, lng: 22.74569,
+        foto: "fotos/dag3_station1.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D3_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "3", naam: "Railway Station Nemea", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.78997, lng: 22.74569,
+        foto: "fotos/dag3_station1.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D3_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "3", naam: "Station Σιδηροδρομικός Σταθμός-Μυκήν", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.71948, lng: 22.72653,
+        foto: "fotos/dag3_station2.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D3_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "3", naam: "Station Σιδηροδρομικός Σταθμός-Μυκήν", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.71948, lng: 22.72653,
+        foto: "fotos/dag3_station2.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_C_D3_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+    // ── DAG 4 ──────────────────────────────────────────────────
+    {
+        dag: "4", naam: "Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.53236, lng: 22.81659,
+        foto: "fotos/dag4_kapel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D4_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "4", naam: "Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.53236, lng: 22.81659,
+        foto: "fotos/dag4_kapel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_C_D4_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "4", naam: "Berg kerkje", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.54526, lng: 22.85476,
+        foto: "fotos/dag4_berg_kerkje.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D4_BERG.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "4", naam: "grot kapel", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.54062, lng: 22.82985,
+        foto: "fotos/dag4_grot_kapel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D4_GROT_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+    // ── DAG 5 ──────────────────────────────────────────────────
+    {
+        dag: "5", naam: "Old train station", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.55638, lng: 22.71677,
+        foto: "fotos/dag5_station.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D5_TRAIN_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "5", naam: "Old train station", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.55638, lng: 22.71677,
+        foto: "fotos/dag5_station.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_C_D5_TRAIN_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "5", naam: "Old train station", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.55638, lng: 22.71677,
+        foto: "fotos/dag5_station.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D5_TRAIN_STATION.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "5", naam: "Kasteel", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.55441, lng: 22.71006,
+        foto: "fotos/dag5_kasteel.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D5_KASTEEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "5", naam: "Torentje_2", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.54769, lng: 22.71008,
+        foto: "fotos/dag5_torentje2.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D5_TORENTJE.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "5", naam: "Basin", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.55822, lng: 22.70677,
+        foto: "fotos/dag5_basin.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D5_BASIN.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+    // ── DAG 6 ──────────────────────────────────────────────────
+    {
+        dag: "6", naam: "Tombes", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.53067, lng: 22.86875,
+        foto: "fotos/dag6_tombes.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D6_TOMBES.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "6", naam: "Tombes", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.53067, lng: 22.86875,
+        foto: "fotos/dag6_tombes.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D6_TOMBES.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "6", naam: "Tombes", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.53067, lng: 22.86875,
+        foto: "fotos/dag6_tombes.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D6_TOMBES.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "6", naam: "Tombes", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.53067, lng: 22.86875,
+        foto: "fotos/dag6_tombes.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D6_TOMBES.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+    // ── DAG 7 ──────────────────────────────────────────────────
+    {
+        dag: "7", naam: "Nafplio", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.56598, lng: 22.79679,
+        foto: "fotos/dag7_Nafplio.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D7_NAFPLIO.html",
+        linkTekst: "Bekijk Kaart"
+    },
+    {
+        dag: "7", naam: "Nafplio", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.56598, lng: 22.79679,
+        foto: "fotos/dag7_Nafplio.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D7_NAFPLIO.html",
+        linkTekst: "Bekijk Kaart"
+    },
+    {
+        dag: "7", naam: "Nafplio", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.56598, lng: 22.79679,
+        foto: "fotos/dag7_Nafplio.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_C_D7_NAFPLIO.html",
+        linkTekst: "Bekijk Kaart"
+    },
+    {
+        dag: "7", naam: "Nafplio", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.56598, lng: 22.79679,
+        foto: "fotos/dag7_Nafplio.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D7_NAFPLIO.html",
+        linkTekst: "Bekijk Kaart"
+    },
+    {
+        dag: "7", naam: "Wandelpad", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.534408, lng: 22.81702,
+        foto: "fotos/dag7_Wandelpad.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D7_ROUTE_NAAR_KAPEL.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+    // ── DAG 8 ──────────────────────────────────────────────────
+    {
+        dag: "8", naam: "Spoorbrug", groep: "A",
+        leden: "Tom, Medaar, Jore, Noah",
+        lat: 37.47454, lng: 22.6241,
+        foto: "fotos/dag8_Spoorbrug2.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_A_D8_SPOORBRUG.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "8", naam: "Spoorbrug", groep: "B",
+        leden: "Zita, Arthur, Warre, Stef",
+        lat: 37.47454, lng: 22.6241,
+        foto: "fotos/dag8_Spoorbrug2.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_B_D8_SPOORBRUG.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "8", naam: "Sluis", groep: "C",
+        leden: "thibo, Lucas, Rune, Noor",
+        lat: 37.52527, lng: 22.72556,
+        foto: "fotos/dag8_Sluis.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_C_D8_SLUIS.html",
+        linkTekst: "Bekijk 3D model"
+    },
+    {
+        dag: "8", naam: "Pyramid of Elliniko", groep: "D",
+        leden: "Wannes, Kasper, Tuur, Celien",
+        lat: 37.58736, lng: 22.6714,
+        foto: "fotos/dag8_pyramide.jpeg",
+        link: "https://samenwerkinginternationaal.one/GROEP_D_D8_PYRAMID.html",
+        linkTekst: "Bekijk 3D model"
+    },
+
+]; // ← einde MARKERS lijst
+
+
+// =============================================================
+//  ⚙️  INSTELLINGEN — markerkleur per groep
+// =============================================================
+const GROEP_KLEUR = {
+    A: "darkred",
+    B: "darkblue",
+    C: "darkgreen",
+    D: "orange"
+};
+
+
+// =============================================================
+//  🗺️  KAART INITIALISEREN — normaal niet nodig aan te passen
+// =============================================================
+const map = L.map("map", {
+    center: [37.55227265, 22.80720105],
+    zoom: 10
 });
 
-        
-            
-                var html_10436402fcdb94e53b2c5c78d86af2b1 = $(`<div id="html_10436402fcdb94e53b2c5c78d86af2b1" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 1 - Kapel_1</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag1_kapel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D1_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_f498ea3971ec1192f32bc9a393bfadc1.setContent(html_10436402fcdb94e53b2c5c78d86af2b1);
-            
-        
+L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: "abcd",
+    maxZoom: 20
+}).addTo(map);
 
-        marker_5b1ab1dd24e6ed8d7561eb5e87ce4be9.bindPopup(popup_f498ea3971ec1192f32bc9a393bfadc1)
-        ;
+L.control.scale().addTo(map);
 
-        
-    
-    
-            marker_5b1ab1dd24e6ed8d7561eb5e87ce4be9.bindTooltip(
-                `<div>
-                     Kapel_1 (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_5b1ab1dd24e6ed8d7561eb5e87ce4be9.setIcon(icon_5017fd48db16c7612934ee14d131d851);
-            
-    
-            var marker_f412558f588d1980e3707a021994f605 = L.marker(
-                [37.529295, 22.839265],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_f345544d1ab3349de26086f00e9e2e51 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_61a2275d14d65477c8acbd825fedd6e3 = L.popup({
-  "maxWidth": 250,
+const cluster = L.markerClusterGroup();
+
+// Markers aanmaken vanuit de MARKERS lijst
+const markersPerGroep = { A: [], B: [], C: [], D: [] };
+
+MARKERS.forEach(function(m) {
+    const icon = L.AwesomeMarkers.icon({
+        markerColor: GROEP_KLEUR[m.groep] || "blue",
+        iconColor: "white",
+        icon: "info-sign",
+        prefix: "glyphicon"
+    });
+
+    const fotoHtml = m.foto
+        ? `<img src="${m.foto}" style="width:100%; border-radius:8px; margin:6px 0;">`
+        : "";
+
+    const linkHtml = m.link
+        ? `<p><a href="${m.link}" target="_blank">${m.linkTekst}</a></p>`
+        : "";
+
+    const popupInhoud = `
+        <div style="width:220px">
+            <h4>Dag ${m.dag} - ${m.naam}</h4>
+            <p><strong>Groep:</strong> ${m.leden}</p>
+            ${fotoHtml}
+            ${linkHtml}
+        </div>`;
+
+    const marker = L.marker([m.lat, m.lng], { icon })
+        .bindPopup(L.popup({ maxWidth: 250 }).setContent(popupInhoud))
+        .bindTooltip(`<div>${m.naam} (${m.leden})</div>`, { sticky: true });
+
+    cluster.addLayer(marker);
+    if (markersPerGroep[m.groep]) markersPerGroep[m.groep].push(marker);
 });
 
-        
-            
-                var html_35f664bf11f5fee0c71438e587cc6a0d = $(`<div id="html_35f664bf11f5fee0c71438e587cc6a0d" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 1 - Kapel_1</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag1_kapel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D1_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_61a2275d14d65477c8acbd825fedd6e3.setContent(html_35f664bf11f5fee0c71438e587cc6a0d);
-            
-        
+cluster.addTo(map);
 
-        marker_f412558f588d1980e3707a021994f605.bindPopup(popup_61a2275d14d65477c8acbd825fedd6e3)
-        ;
 
-        
-    
-    
-            marker_f412558f588d1980e3707a021994f605.bindTooltip(
-                `<div>
-                     Kapel_1 (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
+// =============================================================
+//  🔲  FILTERMENU — normaal niet nodig aan te passen
+// =============================================================
+const filterBox = document.createElement("div");
+filterBox.innerHTML = `
+    <div style="
+        position: fixed; top: 15px; left: 15px; z-index: 99999;
+        background: white; padding: 12px 14px; border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        font-family: Arial, sans-serif; min-width: 180px;
+    ">
+        <strong style="display:block; margin-bottom:8px;">Toon groepen</strong>
+        <label style="display:block; margin-bottom:4px;"><input type="checkbox" class="groep-checkbox" value="A"> Groep A</label>
+        <label style="display:block; margin-bottom:4px;"><input type="checkbox" class="groep-checkbox" value="B"> Groep B</label>
+        <label style="display:block; margin-bottom:4px;"><input type="checkbox" class="groep-checkbox" value="C"> Groep C</label>
+        <label style="display:block; margin-bottom:8px;"><input type="checkbox" class="groep-checkbox" value="D"> Groep D</label>
+        <button id="resetGroepen" style="
+            width:100%; border:none; background:#f0f0f0;
+            padding:6px 8px; border-radius:6px; cursor:pointer;
+        ">Alles tonen</button>
+    </div>`;
+document.body.appendChild(filterBox);
+
+function updateFilter() {
+    const aangevinkt = Array.from(document.querySelectorAll(".groep-checkbox:checked")).map(cb => cb.value);
+    cluster.clearLayers();
+    const tonen = aangevinkt.length === 0 ? Object.keys(markersPerGroep) : aangevinkt;
+    tonen.forEach(g => markersPerGroep[g].forEach(mk => cluster.addLayer(mk)));
 }
-            );
-        
-    
-                marker_f412558f588d1980e3707a021994f605.setIcon(icon_f345544d1ab3349de26086f00e9e2e51);
-            
-    
-            var marker_dd6e0773a27bfd98bb7d8b974ef09d94 = L.marker(
-                [37.52952, 22.839536],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_3189dc8ed8fa8db245a0d3b6cdabf133 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ae2d2852598b26777d0758ebaf8453c0 = L.popup({
-  "maxWidth": 250,
+
+document.querySelectorAll(".groep-checkbox").forEach(cb => cb.addEventListener("change", updateFilter));
+document.getElementById("resetGroepen").addEventListener("click", function() {
+    document.querySelectorAll(".groep-checkbox").forEach(cb => cb.checked = false);
+    updateFilter();
 });
-
-        
-            
-                var html_7c460029b2df74d6765c8485629aae89 = $(`<div id="html_7c460029b2df74d6765c8485629aae89" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 1 - Torentje_1</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag1_torentje.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D1_TORENTJE.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_ae2d2852598b26777d0758ebaf8453c0.setContent(html_7c460029b2df74d6765c8485629aae89);
-            
-        
-
-        marker_dd6e0773a27bfd98bb7d8b974ef09d94.bindPopup(popup_ae2d2852598b26777d0758ebaf8453c0)
-        ;
-
-        
-    
-    
-            marker_dd6e0773a27bfd98bb7d8b974ef09d94.bindTooltip(
-                `<div>
-                     Torentje_1 (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_dd6e0773a27bfd98bb7d8b974ef09d94.setIcon(icon_3189dc8ed8fa8db245a0d3b6cdabf133);
-            
-    
-            var marker_b90996a163ffe32886fdbb6fc79816b9 = L.marker(
-                [37.53135, 22.84516],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_31f583e6abcca4795760d43b947c977a = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ecce68ab7361bf142d9d36a848dc91ea = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_362f2dbef010aae360693849003d9c5a = $(`<div id="html_362f2dbef010aae360693849003d9c5a" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 1 - kerkje_1</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag1_kerkje.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D1_KERKJE.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_ecce68ab7361bf142d9d36a848dc91ea.setContent(html_362f2dbef010aae360693849003d9c5a);
-            
-        
-
-        marker_b90996a163ffe32886fdbb6fc79816b9.bindPopup(popup_ecce68ab7361bf142d9d36a848dc91ea)
-        ;
-
-        
-    
-    
-            marker_b90996a163ffe32886fdbb6fc79816b9.bindTooltip(
-                `<div>
-                     kerkje_1 (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_b90996a163ffe32886fdbb6fc79816b9.setIcon(icon_31f583e6abcca4795760d43b947c977a);
-            
-    
-            var marker_6518ca13145093dfaea8d6dbcfe7913b = L.marker(
-                [37.42257, 23.13147],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_b4ec55fb90e3224c1f090b08785a13ef = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_c273783ff6e645999804e5009b1fd406 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_851b7ca52f3300ed553dab80ac34f306 = $(`<div id="html_851b7ca52f3300ed553dab80ac34f306" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 2 - Franchthi Cave</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag2_Franchthi_Cave.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D2_GROT.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_c273783ff6e645999804e5009b1fd406.setContent(html_851b7ca52f3300ed553dab80ac34f306);
-            
-        
-
-        marker_6518ca13145093dfaea8d6dbcfe7913b.bindPopup(popup_c273783ff6e645999804e5009b1fd406)
-        ;
-
-        
-    
-    
-            marker_6518ca13145093dfaea8d6dbcfe7913b.bindTooltip(
-                `<div>
-                     Franchthi Cave (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_6518ca13145093dfaea8d6dbcfe7913b.setIcon(icon_b4ec55fb90e3224c1f090b08785a13ef);
-            
-    
-            var marker_97572942a66e1c032b5e77183e2c8005 = L.marker(
-                [37.42257, 23.13147],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_6ac16f5f0e36c9908608254b2759df14 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ce66ae456c3f64ed19e7445aed5c1ac5 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_4dc60418d2aeb71739d1d886bfb5df4f = $(`<div id="html_4dc60418d2aeb71739d1d886bfb5df4f" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 2 - Franchthi Cave</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag2_Franchthi_Cave.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D2_GROT.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_ce66ae456c3f64ed19e7445aed5c1ac5.setContent(html_4dc60418d2aeb71739d1d886bfb5df4f);
-            
-        
-
-        marker_97572942a66e1c032b5e77183e2c8005.bindPopup(popup_ce66ae456c3f64ed19e7445aed5c1ac5)
-        ;
-
-        
-    
-    
-            marker_97572942a66e1c032b5e77183e2c8005.bindTooltip(
-                `<div>
-                     Franchthi Cave (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_97572942a66e1c032b5e77183e2c8005.setIcon(icon_6ac16f5f0e36c9908608254b2759df14);
-            
-    
-            var marker_191bf4f397e4b2e6f618470c92f0b620 = L.marker(
-                [37.4701, 23.16787],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_d95f6998d7153b206d7a29b97cc5e42d = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_c9fe78ca940e1328dfa4a7b649b1b6b4 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_a08af0b36198c19f0c709ee2d8caef5c = $(`<div id="html_a08af0b36198c19f0c709ee2d8caef5c" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 2 - Caves of the Twins Dolines</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag2_Caves_of_the_Twins_Dolines.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D2_KRATER.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_c9fe78ca940e1328dfa4a7b649b1b6b4.setContent(html_a08af0b36198c19f0c709ee2d8caef5c);
-            
-        
-
-        marker_191bf4f397e4b2e6f618470c92f0b620.bindPopup(popup_c9fe78ca940e1328dfa4a7b649b1b6b4)
-        ;
-
-        
-    
-    
-            marker_191bf4f397e4b2e6f618470c92f0b620.bindTooltip(
-                `<div>
-                     Caves of the Twins Dolines (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_191bf4f397e4b2e6f618470c92f0b620.setIcon(icon_d95f6998d7153b206d7a29b97cc5e42d);
-            
-    
-            var marker_abf52c602305a3084baf8e81853ebb29 = L.marker(
-                [37.4701, 23.16787],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_324690333e89a1649754afb586f08f1a = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_62648b96667248a6cc2eaf9dc2c12a6e = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_3690acbdf6c55617e731535ba02e28ee = $(`<div id="html_3690acbdf6c55617e731535ba02e28ee" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 2 - Caves of the Twins Dolines</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag2_Caves_of_the_Twins_Dolines.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D2_KRATER.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_62648b96667248a6cc2eaf9dc2c12a6e.setContent(html_3690acbdf6c55617e731535ba02e28ee);
-            
-        
-
-        marker_abf52c602305a3084baf8e81853ebb29.bindPopup(popup_62648b96667248a6cc2eaf9dc2c12a6e)
-        ;
-
-        
-    
-    
-            marker_abf52c602305a3084baf8e81853ebb29.bindTooltip(
-                `<div>
-                     Caves of the Twins Dolines (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_abf52c602305a3084baf8e81853ebb29.setIcon(icon_324690333e89a1649754afb586f08f1a);
-            
-    
-            var marker_84166ba8c26b5de173e3ecefb108949a = L.marker(
-                [37.78997, 22.74569],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_bc14070005b4a5246634c44798798131 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_5345fb0bb70ca52c7394b191f37969d5 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_b4034b058891c16225e84e8085f7da0c = $(`<div id="html_b4034b058891c16225e84e8085f7da0c" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 3 - Railway Station Nemea</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag3_station1.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D3_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_5345fb0bb70ca52c7394b191f37969d5.setContent(html_b4034b058891c16225e84e8085f7da0c);
-            
-        
-
-        marker_84166ba8c26b5de173e3ecefb108949a.bindPopup(popup_5345fb0bb70ca52c7394b191f37969d5)
-        ;
-
-        
-    
-    
-            marker_84166ba8c26b5de173e3ecefb108949a.bindTooltip(
-                `<div>
-                     Railway Station Nemea (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_84166ba8c26b5de173e3ecefb108949a.setIcon(icon_bc14070005b4a5246634c44798798131);
-            
-    
-            var marker_2289d65daedc25478457e5fc221cd61a = L.marker(
-                [37.78997, 22.74569],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_d6ff9afca8d6fcd1345ae7101752fee8 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_59871a645186db4ae18df4ae8878f47d = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_2f3e242272123efb2f98bd41a5e9c7de = $(`<div id="html_2f3e242272123efb2f98bd41a5e9c7de" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 3 - Railway Station Nemea</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag3_station1.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D3_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_59871a645186db4ae18df4ae8878f47d.setContent(html_2f3e242272123efb2f98bd41a5e9c7de);
-            
-        
-
-        marker_2289d65daedc25478457e5fc221cd61a.bindPopup(popup_59871a645186db4ae18df4ae8878f47d)
-        ;
-
-        
-    
-    
-            marker_2289d65daedc25478457e5fc221cd61a.bindTooltip(
-                `<div>
-                     Railway Station Nemea (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_2289d65daedc25478457e5fc221cd61a.setIcon(icon_d6ff9afca8d6fcd1345ae7101752fee8);
-            
-    
-            var marker_b4a9d7f195f0894c5d2031d5a0fe3b69 = L.marker(
-                [37.71948, 22.72653],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_43507bae0ed9ec9cd180510826e55af1 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_2b7a1c0c40b9c401a0cde5062eda334d = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_894d68360f610ef8b3b77f4eb893004a = $(`<div id="html_894d68360f610ef8b3b77f4eb893004a" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 3 - Station Σιδηροδρομικός Σταθμός-Μυκήν</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag3_station2.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D3_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_2b7a1c0c40b9c401a0cde5062eda334d.setContent(html_894d68360f610ef8b3b77f4eb893004a);
-            
-        
-
-        marker_b4a9d7f195f0894c5d2031d5a0fe3b69.bindPopup(popup_2b7a1c0c40b9c401a0cde5062eda334d)
-        ;
-
-        
-    
-    
-            marker_b4a9d7f195f0894c5d2031d5a0fe3b69.bindTooltip(
-                `<div>
-                     Station Σιδηροδρομικός Σταθμός-Μυκήν (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_b4a9d7f195f0894c5d2031d5a0fe3b69.setIcon(icon_43507bae0ed9ec9cd180510826e55af1);
-            
-    
-            var marker_67956da20f9a7b5c163a8e255e916f83 = L.marker(
-                [37.71948, 22.72653],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_fd39eae959cc53dd4dcf2f39f9ad9faf = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_06d2b41751c89b3aa382264fff0925f2 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_a9ed9e87eeda09e109ead4899ab4a2bf = $(`<div id="html_a9ed9e87eeda09e109ead4899ab4a2bf" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 3 - Station Σιδηροδρομικός Σταθμός-Μυκήν</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag3_station2.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D3_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_06d2b41751c89b3aa382264fff0925f2.setContent(html_a9ed9e87eeda09e109ead4899ab4a2bf);
-            
-        
-
-        marker_67956da20f9a7b5c163a8e255e916f83.bindPopup(popup_06d2b41751c89b3aa382264fff0925f2)
-        ;
-
-        
-    
-    
-            marker_67956da20f9a7b5c163a8e255e916f83.bindTooltip(
-                `<div>
-                     Station Σιδηροδρομικός Σταθμός-Μυκήν (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_67956da20f9a7b5c163a8e255e916f83.setIcon(icon_fd39eae959cc53dd4dcf2f39f9ad9faf);
-            
-    
-            var marker_338ee3d7864c1fcf39df529a1862b861 = L.marker(
-                [37.53236, 22.81659],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_f57f3bc4d304a17495df84981a7d2570 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_a0be59525a3b4e886168ca8cb488d62e = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_315e42e4eaa0834597a3d665816b9762 = $(`<div id="html_315e42e4eaa0834597a3d665816b9762" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 4 - Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag4_kapel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D4_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_a0be59525a3b4e886168ca8cb488d62e.setContent(html_315e42e4eaa0834597a3d665816b9762);
-            
-        
-
-        marker_338ee3d7864c1fcf39df529a1862b861.bindPopup(popup_a0be59525a3b4e886168ca8cb488d62e)
-        ;
-
-        
-    
-    
-            marker_338ee3d7864c1fcf39df529a1862b861.bindTooltip(
-                `<div>
-                     Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_338ee3d7864c1fcf39df529a1862b861.setIcon(icon_f57f3bc4d304a17495df84981a7d2570);
-            
-    
-            var marker_43c4709a9ea969738e9f3b86ed869506 = L.marker(
-                [37.53236, 22.81659],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_fdca70ae21858f25efbcdce307bd1824 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_232300a852440b61f35a6179144e7e11 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_12e9f089937fd947414b289ba2a4541b = $(`<div id="html_12e9f089937fd947414b289ba2a4541b" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 4 - Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag4_kapel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D4_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_232300a852440b61f35a6179144e7e11.setContent(html_12e9f089937fd947414b289ba2a4541b);
-            
-        
-
-        marker_43c4709a9ea969738e9f3b86ed869506.bindPopup(popup_232300a852440b61f35a6179144e7e11)
-        ;
-
-        
-    
-    
-            marker_43c4709a9ea969738e9f3b86ed869506.bindTooltip(
-                `<div>
-                     Kapel_2: Άγιος Νικόλαος ο Κρασόκτιστος (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_43c4709a9ea969738e9f3b86ed869506.setIcon(icon_fdca70ae21858f25efbcdce307bd1824);
-            
-    
-            var marker_53bfe693b459c969525e01ad18c37008 = L.marker(
-                [37.54526, 22.85476],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_05b21e71f003d713f077222991dbd785 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_d72091c2479d2d5a7757bd011d340473 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_e70c649e96238b749fcfae9be7581df1 = $(`<div id="html_e70c649e96238b749fcfae9be7581df1" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 4 - Berg kerkje</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag4_berg_kerkje.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D4_BERG.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_d72091c2479d2d5a7757bd011d340473.setContent(html_e70c649e96238b749fcfae9be7581df1);
-            
-        
-
-        marker_53bfe693b459c969525e01ad18c37008.bindPopup(popup_d72091c2479d2d5a7757bd011d340473)
-        ;
-
-        
-    
-    
-            marker_53bfe693b459c969525e01ad18c37008.bindTooltip(
-                `<div>
-                     Berg kerkje (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_53bfe693b459c969525e01ad18c37008.setIcon(icon_05b21e71f003d713f077222991dbd785);
-            
-    
-            var marker_f03759dbd2afd85d3ccd077569ad3b88 = L.marker(
-                [37.54062, 22.82985],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_3c98eed04c450db50ecc58ac84573d7e = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_d569e042a0b71603a6ceb6594e5c2e63 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_6ceb855c0d778445c3405867622d76fe = $(`<div id="html_6ceb855c0d778445c3405867622d76fe" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 4 - grot kapel</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag4_grot_kapel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D4_GROT_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_d569e042a0b71603a6ceb6594e5c2e63.setContent(html_6ceb855c0d778445c3405867622d76fe);
-            
-        
-
-        marker_f03759dbd2afd85d3ccd077569ad3b88.bindPopup(popup_d569e042a0b71603a6ceb6594e5c2e63)
-        ;
-
-        
-    
-    
-            marker_f03759dbd2afd85d3ccd077569ad3b88.bindTooltip(
-                `<div>
-                     grot kapel (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_f03759dbd2afd85d3ccd077569ad3b88.setIcon(icon_3c98eed04c450db50ecc58ac84573d7e);
-            
-    
-            var marker_2a10ca5aebead635cb32cb4da13b3cf9 = L.marker(
-                [37.55638, 22.71677],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_3f48b5aae81a0bc982c9496d9bcb18d5 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_47039433039ba23095b14384791565f4 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_b7189c2fa3e900f0c14e2aaffbab7d46 = $(`<div id="html_b7189c2fa3e900f0c14e2aaffbab7d46" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Old train station</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag5_station.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D5_TRAIN_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_47039433039ba23095b14384791565f4.setContent(html_b7189c2fa3e900f0c14e2aaffbab7d46);
-            
-        
-
-        marker_2a10ca5aebead635cb32cb4da13b3cf9.bindPopup(popup_47039433039ba23095b14384791565f4)
-        ;
-
-        
-    
-    
-            marker_2a10ca5aebead635cb32cb4da13b3cf9.bindTooltip(
-                `<div>
-                     Old train station (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_2a10ca5aebead635cb32cb4da13b3cf9.setIcon(icon_3f48b5aae81a0bc982c9496d9bcb18d5);
-            
-    
-            var marker_5b60892c579c9194d23aa4baff273516 = L.marker(
-                [37.55638, 22.71677],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_24bd6c9955e26dde9f88be441ae34ee5 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_2a8bbfed62b5e553598de657dbb6a2c5 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_03ff670321992459c6ce9bb7631d6a77 = $(`<div id="html_03ff670321992459c6ce9bb7631d6a77" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Old train station</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag5_station.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D5_TRAIN_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_2a8bbfed62b5e553598de657dbb6a2c5.setContent(html_03ff670321992459c6ce9bb7631d6a77);
-            
-        
-
-        marker_5b60892c579c9194d23aa4baff273516.bindPopup(popup_2a8bbfed62b5e553598de657dbb6a2c5)
-        ;
-
-        
-    
-    
-            marker_5b60892c579c9194d23aa4baff273516.bindTooltip(
-                `<div>
-                     Old train station (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_5b60892c579c9194d23aa4baff273516.setIcon(icon_24bd6c9955e26dde9f88be441ae34ee5);
-            
-    
-            var marker_fc176a09819a6c48454302e1fd1861b5 = L.marker(
-                [37.55638, 22.71677],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_db8ff1d0fc11e6ba7eb2c5875578dd24 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_1780ce86c49aa7ce0be1d337f9422d99 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_c365362e7d8febecd3521019ad4c76d5 = $(`<div id="html_c365362e7d8febecd3521019ad4c76d5" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Old train station</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag5_station.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D5_TRAIN_STATION.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_1780ce86c49aa7ce0be1d337f9422d99.setContent(html_c365362e7d8febecd3521019ad4c76d5);
-            
-        
-
-        marker_fc176a09819a6c48454302e1fd1861b5.bindPopup(popup_1780ce86c49aa7ce0be1d337f9422d99)
-        ;
-
-        
-    
-    
-            marker_fc176a09819a6c48454302e1fd1861b5.bindTooltip(
-                `<div>
-                     Old train station (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_fc176a09819a6c48454302e1fd1861b5.setIcon(icon_db8ff1d0fc11e6ba7eb2c5875578dd24);
-            
-    
-            var marker_671027a6464216c2613a17e55b2b0c6e = L.marker(
-                [37.55441, 22.71006],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_f70aea249ea80b5442d58cb0ad908b16 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_15258a977f781ea3dacc813c64138aaf = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_1a173ab8addf2aee1c59dd86ac8d3ed3 = $(`<div id="html_1a173ab8addf2aee1c59dd86ac8d3ed3" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Kasteel</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag5_kasteel.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D5_KASTEEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_15258a977f781ea3dacc813c64138aaf.setContent(html_1a173ab8addf2aee1c59dd86ac8d3ed3);
-            
-        
-
-        marker_671027a6464216c2613a17e55b2b0c6e.bindPopup(popup_15258a977f781ea3dacc813c64138aaf)
-        ;
-
-        
-    
-    
-            marker_671027a6464216c2613a17e55b2b0c6e.bindTooltip(
-                `<div>
-                     Kasteel (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_671027a6464216c2613a17e55b2b0c6e.setIcon(icon_f70aea249ea80b5442d58cb0ad908b16);
-            
-    
-            var marker_7dd0040c7d7d904ed7c10fb65f48a6db = L.marker(
-                [37.54769, 22.71008],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_503abbbc64c55afe20ed5d5a6c2cc59c = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_32a1f482968fd9ad9c18634478a59312 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_01be61df71c6b9b59f48e38526ad9282 = $(`<div id="html_01be61df71c6b9b59f48e38526ad9282" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Torentje_2</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag5_torentje2.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D5_TORENTJE.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_32a1f482968fd9ad9c18634478a59312.setContent(html_01be61df71c6b9b59f48e38526ad9282);
-            
-        
-
-        marker_7dd0040c7d7d904ed7c10fb65f48a6db.bindPopup(popup_32a1f482968fd9ad9c18634478a59312)
-        ;
-
-        
-    
-    
-            marker_7dd0040c7d7d904ed7c10fb65f48a6db.bindTooltip(
-                `<div>
-                     Torentje_2 (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_7dd0040c7d7d904ed7c10fb65f48a6db.setIcon(icon_503abbbc64c55afe20ed5d5a6c2cc59c);
-            
-    
-            var marker_e99141f43f3a9551f957ea76f611d5f9 = L.marker(
-                [37.55822, 22.70677],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_1c2af8a2a39cfab55a461b47c31c5aa2 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_6755ca6c78b5e14c5e69196759657c5e = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_16bbed5dd4ec29d00e0b89b3f4773ac4 = $(`<div id="html_16bbed5dd4ec29d00e0b89b3f4773ac4" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 5 - Basin</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag5_basin.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D5_BASIN.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_6755ca6c78b5e14c5e69196759657c5e.setContent(html_16bbed5dd4ec29d00e0b89b3f4773ac4);
-            
-        
-
-        marker_e99141f43f3a9551f957ea76f611d5f9.bindPopup(popup_6755ca6c78b5e14c5e69196759657c5e)
-        ;
-
-        
-    
-    
-            marker_e99141f43f3a9551f957ea76f611d5f9.bindTooltip(
-                `<div>
-                     Basin (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_e99141f43f3a9551f957ea76f611d5f9.setIcon(icon_1c2af8a2a39cfab55a461b47c31c5aa2);
-            
-    
-            var marker_acc0595921bdbbcc923b8f923935d6ef = L.marker(
-                [37.53067, 22.86875],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_8229ca7b0e9ad23d08273103e4c6cb49 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_0387954b29ebeb38dde5345b6383c2b7 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_4c495a0ec13281aed5a7928a14eed975 = $(`<div id="html_4c495a0ec13281aed5a7928a14eed975" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 6 - Tombes</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag6_tombes.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D6_TOMBES.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_0387954b29ebeb38dde5345b6383c2b7.setContent(html_4c495a0ec13281aed5a7928a14eed975);
-            
-        
-
-        marker_acc0595921bdbbcc923b8f923935d6ef.bindPopup(popup_0387954b29ebeb38dde5345b6383c2b7)
-        ;
-
-        
-    
-    
-            marker_acc0595921bdbbcc923b8f923935d6ef.bindTooltip(
-                `<div>
-                     Tombes (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_acc0595921bdbbcc923b8f923935d6ef.setIcon(icon_8229ca7b0e9ad23d08273103e4c6cb49);
-            
-    
-            var marker_f7fcd4934ebc8a4b9fcfa427ccbc382f = L.marker(
-                [37.53067, 22.86875],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_7918008116f80908d90c34fd8ac4b57e = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ae6dcac65213edd8bf0b23ecef32a2f4 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_9f81769b2b41b31ca00b2675440680d7 = $(`<div id="html_9f81769b2b41b31ca00b2675440680d7" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 6 - Tombes</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag6_tombes.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D6_TOMBES.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_ae6dcac65213edd8bf0b23ecef32a2f4.setContent(html_9f81769b2b41b31ca00b2675440680d7);
-            
-        
-
-        marker_f7fcd4934ebc8a4b9fcfa427ccbc382f.bindPopup(popup_ae6dcac65213edd8bf0b23ecef32a2f4)
-        ;
-
-        
-    
-    
-            marker_f7fcd4934ebc8a4b9fcfa427ccbc382f.bindTooltip(
-                `<div>
-                     Tombes (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_f7fcd4934ebc8a4b9fcfa427ccbc382f.setIcon(icon_7918008116f80908d90c34fd8ac4b57e);
-            
-    
-            var marker_0dcd6c6635fa9ceb02f6f532f99ae1b6 = L.marker(
-                [37.53067, 22.86875],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_a9c8a4de093b5a7c32711a36f7048fd9 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_62066e4ca4c2ee6270153eaea495db1b = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_a128a5263ac0ebe8c61a595a6c973ff2 = $(`<div id="html_a128a5263ac0ebe8c61a595a6c973ff2" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 6 - Tombes</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag6_tombes.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D6_TOMBES.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_62066e4ca4c2ee6270153eaea495db1b.setContent(html_a128a5263ac0ebe8c61a595a6c973ff2);
-            
-        
-
-        marker_0dcd6c6635fa9ceb02f6f532f99ae1b6.bindPopup(popup_62066e4ca4c2ee6270153eaea495db1b)
-        ;
-
-        
-    
-    
-            marker_0dcd6c6635fa9ceb02f6f532f99ae1b6.bindTooltip(
-                `<div>
-                     Tombes (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_0dcd6c6635fa9ceb02f6f532f99ae1b6.setIcon(icon_a9c8a4de093b5a7c32711a36f7048fd9);
-            
-    
-            var marker_a4856a1adaa6d5306bf5bce196bf63f4 = L.marker(
-                [37.53067, 22.86875],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_d80ae94708a00b37c7e43374483610b6 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_3e7f43f893a758bf1f06e0aa1282c2e8 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_4ffbb643accbb3388805ab12abefdd4d = $(`<div id="html_4ffbb643accbb3388805ab12abefdd4d" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 6 - Tombes</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag6_tombes.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D6_TOMBES.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_3e7f43f893a758bf1f06e0aa1282c2e8.setContent(html_4ffbb643accbb3388805ab12abefdd4d);
-            
-        
-
-        marker_a4856a1adaa6d5306bf5bce196bf63f4.bindPopup(popup_3e7f43f893a758bf1f06e0aa1282c2e8)
-        ;
-
-        
-    
-    
-            marker_a4856a1adaa6d5306bf5bce196bf63f4.bindTooltip(
-                `<div>
-                     Tombes (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_a4856a1adaa6d5306bf5bce196bf63f4.setIcon(icon_d80ae94708a00b37c7e43374483610b6);
-            
-    
-            var marker_bf51eeac39251e8db97aa7243e5f9b20 = L.marker(
-                [37.56598, 22.79679],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_d3302ceedca68399510c78ee61d5c36e = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_58a9e44830ce3f48411b3044f3356c03 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_7ea987933a1fd96a61a237c9eb504408 = $(`<div id="html_7ea987933a1fd96a61a237c9eb504408" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 7 - Nafplio</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag7_Nafplio.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D7_NAFPLIO.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_58a9e44830ce3f48411b3044f3356c03.setContent(html_7ea987933a1fd96a61a237c9eb504408);
-            
-        
-
-        marker_bf51eeac39251e8db97aa7243e5f9b20.bindPopup(popup_58a9e44830ce3f48411b3044f3356c03)
-        ;
-
-        
-    
-    
-            marker_bf51eeac39251e8db97aa7243e5f9b20.bindTooltip(
-                `<div>
-                     Nafplio (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_bf51eeac39251e8db97aa7243e5f9b20.setIcon(icon_d3302ceedca68399510c78ee61d5c36e);
-            
-    
-            var marker_0c9f424ee1ae7132fe2c5354e71088f7 = L.marker(
-                [37.56598, 22.79679],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_ff8016a717c2003e04b926daf92ce1b0 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_a0d906d1011a6cc1d189bdaacbfdc6fe = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_60dbb4c43c31f44d2d6c07be73769175 = $(`<div id="html_60dbb4c43c31f44d2d6c07be73769175" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 7 - Nafplio</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag7_Nafplio.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D7_NAFPLIO.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_a0d906d1011a6cc1d189bdaacbfdc6fe.setContent(html_60dbb4c43c31f44d2d6c07be73769175);
-            
-        
-
-        marker_0c9f424ee1ae7132fe2c5354e71088f7.bindPopup(popup_a0d906d1011a6cc1d189bdaacbfdc6fe)
-        ;
-
-        
-    
-    
-            marker_0c9f424ee1ae7132fe2c5354e71088f7.bindTooltip(
-                `<div>
-                     Nafplio (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_0c9f424ee1ae7132fe2c5354e71088f7.setIcon(icon_ff8016a717c2003e04b926daf92ce1b0);
-            
-    
-            var marker_ad5a8548842a58bd508fb8ba725c3d31 = L.marker(
-                [37.56598, 22.79679],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_53dfcd0a8abef08bb335074441d0e4bf = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_5ff1f3b119e0e045bd7c97a1ce2f8b2b = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_b34e8f8775d0eecebd842aea506c18d8 = $(`<div id="html_b34e8f8775d0eecebd842aea506c18d8" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 7 - Nafplio</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag7_Nafplio.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D7_NAFPLIO.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_5ff1f3b119e0e045bd7c97a1ce2f8b2b.setContent(html_b34e8f8775d0eecebd842aea506c18d8);
-            
-        
-
-        marker_ad5a8548842a58bd508fb8ba725c3d31.bindPopup(popup_5ff1f3b119e0e045bd7c97a1ce2f8b2b)
-        ;
-
-        
-    
-    
-            marker_ad5a8548842a58bd508fb8ba725c3d31.bindTooltip(
-                `<div>
-                     Nafplio (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_ad5a8548842a58bd508fb8ba725c3d31.setIcon(icon_53dfcd0a8abef08bb335074441d0e4bf);
-            
-    
-            var marker_22cf331cffb9b068531583d2dece196f = L.marker(
-                [37.56598, 22.79679],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_ecf8574e634666d515953a5efac2740d = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_4ac6bbe76f65c64cb58c544f7950d52f = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_b43ef1864eff6a4e16a26a041563829a = $(`<div id="html_b43ef1864eff6a4e16a26a041563829a" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 7 - Nafplio</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag7_Nafplio.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D7_NAFPLIO.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_4ac6bbe76f65c64cb58c544f7950d52f.setContent(html_b43ef1864eff6a4e16a26a041563829a);
-            
-        
-
-        marker_22cf331cffb9b068531583d2dece196f.bindPopup(popup_4ac6bbe76f65c64cb58c544f7950d52f)
-        ;
-
-        
-    
-    
-            marker_22cf331cffb9b068531583d2dece196f.bindTooltip(
-                `<div>
-                     Nafplio (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_22cf331cffb9b068531583d2dece196f.setIcon(icon_ecf8574e634666d515953a5efac2740d);
-            
-    
-            var marker_ae14025b3328640df1a3a2cdd69cd7c3 = L.marker(
-                [37.534408, 22.81702],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_b264ac6675ed979e6d072c9b0f5df373 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ad330db48b78b0e7cc69788968c05baa = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_b8132dc75e291c90ce296f71ebfd5ab6 = $(`<div id="html_b8132dc75e291c90ce296f71ebfd5ab6" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 7 - Wandelpad</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag7_Wandelpad.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D7_ROUTE_NAAR_KAPEL.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_ad330db48b78b0e7cc69788968c05baa.setContent(html_b8132dc75e291c90ce296f71ebfd5ab6);
-            
-        
-
-        marker_ae14025b3328640df1a3a2cdd69cd7c3.bindPopup(popup_ad330db48b78b0e7cc69788968c05baa)
-        ;
-
-        
-    
-    
-            marker_ae14025b3328640df1a3a2cdd69cd7c3.bindTooltip(
-                `<div>
-                     Wandelpad (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_ae14025b3328640df1a3a2cdd69cd7c3.setIcon(icon_b264ac6675ed979e6d072c9b0f5df373);
-            
-    
-            var marker_757600429cee054a0bccab0bfe0d830c = L.marker(
-                [37.47454, 22.6241],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_3f5742d3dee79c7224f850c7d8fb1c29 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkred",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_5ab4f1b1beef485ef1f31354e6469c4f = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_0d9226a1f33ea67f6e28e7a46936543c = $(`<div id="html_0d9226a1f33ea67f6e28e7a46936543c" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 8 - Spoorbrug</h4>         <p><strong>Groep:</strong> Tom, Medaar, Jore, Noah</p>         <img src="fotos/dag8_Spoorbrug2.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_A_D8_SPOORBRUG.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_5ab4f1b1beef485ef1f31354e6469c4f.setContent(html_0d9226a1f33ea67f6e28e7a46936543c);
-            
-        
-
-        marker_757600429cee054a0bccab0bfe0d830c.bindPopup(popup_5ab4f1b1beef485ef1f31354e6469c4f)
-        ;
-
-        
-    
-    
-            marker_757600429cee054a0bccab0bfe0d830c.bindTooltip(
-                `<div>
-                     Spoorbrug (Tom, Medaar, Jore, Noah)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_757600429cee054a0bccab0bfe0d830c.setIcon(icon_3f5742d3dee79c7224f850c7d8fb1c29);
-            
-    
-            var marker_5c6a8f694627ce7f13a8e64e8539a3c1 = L.marker(
-                [37.47454, 22.6241],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_e98e8503877c5b9b0715263f61d801ca = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkblue",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_e149e712b87f0eba24c677779565e759 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_e46758b08d4992012b4c865b372cb6f4 = $(`<div id="html_e46758b08d4992012b4c865b372cb6f4" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 8 - Spoorbrug</h4>         <p><strong>Groep:</strong> Zita, Arthur, Warre, Stef</p>         <img src="fotos/dag8_Spoorbrug2.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_B_D8_SPOORBRUG.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_e149e712b87f0eba24c677779565e759.setContent(html_e46758b08d4992012b4c865b372cb6f4);
-            
-        
-
-        marker_5c6a8f694627ce7f13a8e64e8539a3c1.bindPopup(popup_e149e712b87f0eba24c677779565e759)
-        ;
-
-        
-    
-    
-            marker_5c6a8f694627ce7f13a8e64e8539a3c1.bindTooltip(
-                `<div>
-                     Spoorbrug (Zita, Arthur, Warre, Stef)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_5c6a8f694627ce7f13a8e64e8539a3c1.setIcon(icon_e98e8503877c5b9b0715263f61d801ca);
-            
-    
-            var marker_b2138fc52f32f09d0dfe3b7b9ecd02b6 = L.marker(
-                [37.52527, 22.72556],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_bf65c5b4ebe708a95141962fbdc70435 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "darkgreen",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_77615f30bb30e45d45e3f68cfaf96d8b = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_21b3798c2513d688732fe29f94805c69 = $(`<div id="html_21b3798c2513d688732fe29f94805c69" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 8 - Sluis</h4>         <p><strong>Groep:</strong> thibo, Lucas, Rune, Noor</p>         <img src="fotos/dag8_Sluis.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_C_D8_SLUIS.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_77615f30bb30e45d45e3f68cfaf96d8b.setContent(html_21b3798c2513d688732fe29f94805c69);
-            
-        
-
-        marker_b2138fc52f32f09d0dfe3b7b9ecd02b6.bindPopup(popup_77615f30bb30e45d45e3f68cfaf96d8b)
-        ;
-
-        
-    
-    
-            marker_b2138fc52f32f09d0dfe3b7b9ecd02b6.bindTooltip(
-                `<div>
-                     Sluis (thibo, Lucas, Rune, Noor)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_b2138fc52f32f09d0dfe3b7b9ecd02b6.setIcon(icon_bf65c5b4ebe708a95141962fbdc70435);
-            
-    
-            var marker_0e54c4505f7fa16c712d4888582e8ee7 = L.marker(
-                [37.58736, 22.6714],
-                {
-}
-            ).addTo(marker_cluster_be435eecd03e469665038270daf9c79b);
-        
-    
-            var icon_1235f0cfaf8b86288d611f9d7fb7ffb2 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "orange",
-  "iconColor": "white",
-  "icon": "info-sign",
-  "prefix": "glyphicon",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_a10e79cc7615a65a48839e223d0bc133 = L.popup({
-  "maxWidth": 250,
-});
-
-        
-            
-                var html_76e0b0fc38a01d98b4e7e55823fc1111 = $(`<div id="html_76e0b0fc38a01d98b4e7e55823fc1111" style="width: 100.0%; height: 100.0%;">     <div style="width:220px">         <h4>Dag 8 - Pyramid of Elliniko</h4>         <p><strong>Groep:</strong> Wannes, Kasper, Tuur, Celien</p>         <img src="fotos/dag8_pyramide.jpeg" style="width:100%; border-radius:8px;">         <p><a href="http://samenwerkinginternationaal.one/GROEP_D_D8_PYRAMID.html" target="_blank">Bekijk 3D model</a></p>     </div>     </div>`)[0];
-                popup_a10e79cc7615a65a48839e223d0bc133.setContent(html_76e0b0fc38a01d98b4e7e55823fc1111);
-            
-        
-
-        marker_0e54c4505f7fa16c712d4888582e8ee7.bindPopup(popup_a10e79cc7615a65a48839e223d0bc133)
-        ;
-
-        
-    
-    
-            marker_0e54c4505f7fa16c712d4888582e8ee7.bindTooltip(
-                `<div>
-                     Pyramid of Elliniko (Wannes, Kasper, Tuur, Celien)
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_0e54c4505f7fa16c712d4888582e8ee7.setIcon(icon_1235f0cfaf8b86288d611f9d7fb7ffb2);
-            
-    
-            marker_cluster_be435eecd03e469665038270daf9c79b.addTo(map_f224b4e4e41b79784910c428ac22a97c);
-
-
-        
 </script>
-<script>
-    // === FILTERMENU GROEPEN ===
 
-    // Kleur -> groep
-    const kleurNaarGroep = {
-        darkred: "A",
-        darkblue: "B",
-        darkgreen: "C",
-        orange: "D"
-    };
-
-    // Alle markers per groep verzamelen
-    const markersPerGroep = {
-        A: [],
-        B: [],
-        C: [],
-        D: []
-    };
-
-    marker_cluster_be435eecd03e469665038270daf9c79b.eachLayer(function(layer) {
-        if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options) {
-            const kleur = layer.options.icon.options.markerColor;
-            const groep = kleurNaarGroep[kleur];
-            if (groep) {
-                markersPerGroep[groep].push(layer);
-            }
-        }
-    });
-
-    // Menu toevoegen aan de pagina
-    const filterBox = document.createElement("div");
-    filterBox.id = "groep-filter";
-    filterBox.innerHTML = `
-        <div style="
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 99999;
-            background: white;
-            padding: 12px 14px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            font-family: Arial, sans-serif;
-            min-width: 180px;
-        ">
-            <strong style="display:block; margin-bottom:8px;">Toon groepen</strong>
-
-            <label style="display:block; margin-bottom:4px;">
-                <input type="checkbox" class="groep-checkbox" value="A"> Groep A
-            </label>
-            <label style="display:block; margin-bottom:4px;">
-                <input type="checkbox" class="groep-checkbox" value="B"> Groep B
-            </label>
-            <label style="display:block; margin-bottom:4px;">
-                <input type="checkbox" class="groep-checkbox" value="C"> Groep C
-            </label>
-            <label style="display:block; margin-bottom:8px;">
-                <input type="checkbox" class="groep-checkbox" value="D"> Groep D
-            </label>
-
-            <button id="resetGroepen" style="
-                width:100%;
-                border:none;
-                background:#f0f0f0;
-                padding:6px 8px;
-                border-radius:6px;
-                cursor:pointer;
-            ">
-                Alles tonen
-            </button>
-        </div>
-    `;
-    document.body.appendChild(filterBox);
-
-    function updateGroepFilter() {
-        const aangevinkt = Array.from(document.querySelectorAll(".groep-checkbox:checked"))
-            .map(cb => cb.value);
-
-        // Eerst cluster leegmaken
-        marker_cluster_be435eecd03e469665038270daf9c79b.clearLayers();
-
-        // Als niets aangevinkt is -> alles tonen
-        if (aangevinkt.length === 0) {
-            Object.values(markersPerGroep).forEach(groepMarkers => {
-                groepMarkers.forEach(marker => {
-                    marker_cluster_be435eecd03e469665038270daf9c79b.addLayer(marker);
-                });
-            });
-            return;
-        }
-
-        // Anders enkel geselecteerde groepen tonen
-        aangevinkt.forEach(groep => {
-            markersPerGroep[groep].forEach(marker => {
-                marker_cluster_be435eecd03e469665038270daf9c79b.addLayer(marker);
-            });
-        });
-    }
-
-    document.querySelectorAll(".groep-checkbox").forEach(cb => {
-        cb.addEventListener("change", updateGroepFilter);
-    });
-
-    document.getElementById("resetGroepen").addEventListener("click", function() {
-        document.querySelectorAll(".groep-checkbox").forEach(cb => cb.checked = false);
-        updateGroepFilter();
-    });
-</script>
-    
 </html>
