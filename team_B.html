@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groep A</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .page-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px 60px 20px;
+      box-sizing: border-box;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 3rem;
+      margin: 0 0 30px 0;
+    }
+
+    .intro-card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 35px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .intro-card h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .team-list {
+      margin: 0;
+      padding-left: 22px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .intro-text p {
+      margin-top: 0;
+      margin-bottom: 14px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .sites-title {
+      font-size: 2rem;
+      margin: 50px 0 20px 0;
+      text-align: center;
+    }
+
+    .site-block {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+      align-items: center;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+    }
+
+    .site-block.reverse {
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .site-image-wrap {
+      height: 100%;
+      min-height: 320px;
+    }
+
+    .site-image {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .site-text {
+      padding: 28px;
+      box-sizing: border-box;
+    }
+
+    .site-text h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 1.7rem;
+    }
+
+    .site-text p {
+      margin: 0 0 18px 0;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .viewer-link {
+      display: inline-block;
+      text-decoration: none;
+      background: rgb(10, 30, 93);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .viewer-link:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .site-block,
+      .site-block.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .site-image-wrap,
+      .site-image {
+        min-height: 240px;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    <h1 class="page-title">Groep B</h1>
+
+    <section class="intro-card">
+      <div class="intro-grid">
+        <div>
+          <h2>Teamleden</h2>
+          <ul class="team-list">
+            <li>Zita Benoit</li>
+            <li>Stef T'Jampens</li>
+            <li>Warre Ghessele</li>
+            <li>Arthur Vannieuwenhuyze</li>
+          </ul>
+        </div>
+
+        <div class="intro-text">
+          <h2>Onze werkwijze</h2>
+          <p>
+           In deze pagina kan je verschillende resultaten terugvinden van ons project in Griekenland.  We verschillende sites bezocht en digitaal in kaart gebracht. Tijdens het project hebben we gebruikgemaakt van zowel fotogrammetrie als laserscanning om de omgevingen zo nauwkeurig mogelijk vast te leggen.
+          </p>
+          <p>
+            De 3D-modellen zijn voornamelijk opgebouwd op basis van fotogrammetrie. In sommige gevallen hebben we deze techniek gecombineerd met de gegevens uit de laserscans om een nog gedetailleerdere en realistischere weergave te bekomen.
+          </p>
+          Om onze modellen beter te visualiseren en te presenteren, hebben we gebruikgemaakt van Twinmotion. Hiermee konden we realistische animaties en filmpjes maken van de 3D-modellen, waardoor de sites op een meer levendige en interactieve manier worden weergegeven.
+          <p>
+            
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="sites-title">Overzicht van de bezochte sites</h2>
+
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="fotos/dag1_kapel.jpeg" alt="Groep B - D1 kapel" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D1 – Kapel_1</h3>
+        <p>
+          De kapel van Agios Georgios nabij Nafplio is een kleine, traditionele Grieks-orthodoxe plattelandskapel. Ze is gebouwd uit natuursteen en heeft een rood pannendak, typisch voor de regio. De afgelegen ligging wijst op lokaal gebruik, vaak als plaats voor gebed of kleine religieuze bijeenkomsten. Dergelijke kapellen worden meestal opgericht als uiting van geloof of dankbaarheid en zijn gewijd aan een heilige, hier Sint-Joris. Hoewel eenvoudig van vorm, maakt de kapel deel uit van het lokale culturele en religieuze landschap.
+        </p>
+        <a class="viewer-link" href="GROEP_B_D1_KAPEL.html">Open viewer</a>
+      </div>
+    </section>
+
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D2 – Franchthi Cave</h3>
+        <p>
+         Franchthi Cave, bij Koilada op de Peloponnesos, is een van de belangrijkste archeologische sites van Griekenland. De grot werd maar liefst van ongeveer 40.000 jaar geleden tot in het Neolithicum bewoond, waardoor ze een uniek beeld geeft van de overgang van jager-verzamelaars naar landbouwers.
+	<p>
+Opgravingen tonen aan dat bewoners eerst leefden van jacht en visvangst en al vroeg obsidiaan importeerden van Milos, wat wijst op vroege zeevaart en handel. Later verschenen permanente nederzettingen en landbouw.
+	<p>
+Door haar ligging aan een toenmalige kustvlakte (nu deels onder water) is Franchthi Cave een sleutelplek voor het begrijpen van de vroege menselijke geschiedenis in het Middellandse Zeegebied
+        </p>
+        <a class="viewer-link" href="GROEP_B_D2_GROT.html">Open viewer</a>
+        
+
+    
+      </div>
+      <div class="site-image-wrap">
+        <img src="fotos/dag2_Franchthi_Cave.jpeg" alt="Groep B - D2 Grot" class="site-image">
+      </div>
+    </section>
+
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="./fotos/dag3_station1.jpeg" alt="Groep B - D3 railway station Nemea" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3> D3 railway station Nemea</h3>
+        <p>
+           Het treinstation van Nemea is een stil en sfeervol overblijfsel van het oude spoorwegnet op de Peloponnesos. Het werd rond 1886 gebouwd als onderdeel van de S.P.A.P.-lijn en ligt vlak bij de historische pas van Dervenakia.
+	<p>
+Het neoklassieke stationsgebouw herinnert aan een tijd waarin de spoorlijn de regio nog verbond, maar sinds 2011 is het verkeer grotendeels stilgelegd. Vandaag is het een verlaten plek met een bijna filmische sfeer, waar natuur en oude rails langzaam in elkaar overvloeien.
+	<p>
+Boven het station ligt bovendien het terrein van de Slag bij Dervenakia, wat de plek een extra historische betekenis geeft.
+        </p>
+        <a class="viewer-link" href="GROEP_B_D3_STATION.html">Open viewer</a>
+      </div>
+    </section>
+
+
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D4 – kapel</h3>
+        <p>
+          Het kerkje van Agios Nikolaos Krasoktistos ligt op een rots bij Asini, vlak bij Tolo, en is vooral bekend om zijn mooie ligging en legende. Volgens het verhaal liet een kapitein het bouwen nadat hij veilig aan land was gekomen, maar omdat er geen water was, gebruikte hij wijn om de stenen te verbinden. Daarom heet het “Krasoktistos”, wat “gebouwd met wijn” betekent.
+	<p>
+Vandaag is het een populaire plek voor bezoekers vanwege het uitzicht over de baai van Tolo en voor klimmers die de rotswand gebruiken als sportlocatie.
+        </p>
+        <a class="viewer-link" href="GROEP_B_D4_KAPEL.html">Open viewer</a>
+       
+     
+    </a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="./fotos_groep_A/GROEP_A_D7_ROUTE_NAAR_KAPEL.JPG alt="Groep A - D4 Berg" class="site-image">
+      </div>
+    </section>
+
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="fotos/dag5_station.jpeg" alt="Groep B - D5 oud train station" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D5 – oud train station</h3>
+        <p>
+          Het verlaten treinstation van Myloi in de regio Argolis (Peloponnesos, nabij Nafplio) werd rond 1886 gebouwd als onderdeel van het smalspoornetwerk en verbond Nafplio met omliggende steden. Het diende lang voor personen- en goederenvervoer, vooral landbouwproducten.
+	<p>
+Door de achteruitgang van het regionale spoorverkeer verloor het station vanaf de jaren 1970 zijn belang en werd het begin jaren 2000 definitief gesloten. Vandaag is het een verlaten site met oude, verweerde treinen en veel graffiti.
+	<p>
+De plek is nu vooral bekend als een “lost place” en trekt urban explorers en fotografen aan door de combinatie van verval, geschiedenis en street art.
+        </p>
+        <a class="viewer-link" href="GROEP_B_D5_TRAIN_STATION.html">Open viewer</a>
+      </div>
+    </section>
+
+  
+
+    
+    </section>
+
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D6 – Tombes</h3>
+        <p>
+         Deze site nabij Tolo toont deels overgroeide rots- en kamertombes die in de ondergrond zijn uitgehouwen. Ondanks verval en begroeiing zijn nog rechthoekige openingen, toegangen en uitgegraven kamers zichtbaar, wat wijst op een funerair gebruik. De graven zijn archeologisch interessant omdat ze tonen hoe historische begraafplaatsen buiten nederzettingen werden aangelegd en nog steeds sporen van hun oorspronkelijke structuur bewaren.
+        </p>
+        <a class="viewer-link" href="GROEP_B_D6_TOMBES.html">Open viewer</a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="./fotos_groep_A/GROEP_A_D6_TOMBES.JPG" alt="Groep B - D6 Tombes" class="site-image">
+      </div>
+    </section>
+
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="./fotos_groep_A/GROEP_A_D7_NAFPLIO.jpg" alt="Groep B - D7 Nafplio" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D7 – Nafplio</h3>
+        <p>
+          Deze PDF toont een kaart van Nafplio, de oude hoofdstad van Griekenland, met een uitgestippelde fonteinroute door het historische stadscentrum. Op de kaart staan zeven genummerde locaties met foto’s van fonteinen en architecturale elementen. De route is ongeveer 1km kilometer lang.
+        <a class="viewer-link" href="GROEP_B_D7_NAFPLIO.html">Open viewer</a>
+      </div>
+    </section>
+
+
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="./fotos_groep_A/GROEP_A_D8_SPOORBRUG.JPG" alt="Groep B - D8 Spoorbrug" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D8 – Spoorbrug</h3>
+        <p>
+          DDeze brug ligt nabij Kato Doliana in de Peloponnesos en maakt deel uit van een oud spoortraject door het bergachtige landschap. Ze werd waarschijnlijk gebouwd in het begin van de 20e eeuw, tijdens de uitbreiding van het Griekse spoorwegnet.
+	<p>
+Hoewel de brug niet meer gebruikt wordt, is ze nog goed bewaard. Veel spoorlijnen in de Peloponnesos werden verlaten door minder gebruik en modernisering van het transport. Daardoor bleven verschillende bruggen en spoorconstructies als historisch erfgoed achter.
+        </p>
+        <a class="viewer-link" href="GROEP__D8_SPOORBRUG.html">Open viewer</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="menu.js"></script>
+</body>
+</html>
