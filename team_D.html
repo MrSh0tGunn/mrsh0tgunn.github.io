@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groep D</title>
+  <link rel="stylesheet" href="ROOT/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .page-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px 60px 20px;
+      box-sizing: border-box;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 3rem;
+      margin: 0 0 30px 0;
+    }
+
+    .intro-card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 35px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .intro-card h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .team-list {
+      margin: 0;
+      padding-left: 22px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .intro-text p {
+      margin-top: 0;
+      margin-bottom: 14px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .sites-title {
+      font-size: 2rem;
+      margin: 50px 0 20px 0;
+      text-align: center;
+    }
+
+    .site-block {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+      align-items: center;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+    }
+
+    .site-block.reverse {
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    .site-image-wrap {
+      height: 100%;
+      min-height: 320px;
+    }
+
+    .site-image {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .site-text {
+      padding: 28px;
+      box-sizing: border-box;
+    }
+
+    .site-text h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 1.7rem;
+    }
+
+    .site-text p {
+      margin: 0 0 18px 0;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .viewer-link {
+      display: inline-block;
+      text-decoration: none;
+      background: rgb(229, 140, 45);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .viewer-link:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .site-block,
+      .site-block.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .site-image-wrap,
+      .site-image {
+        min-height: 240px;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    <h1 class="page-title">Groep D</h1>
+
+    <section class="intro-card">
+      <div class="intro-grid">
+        <div>
+          <h2>Teamleden</h2>
+          <ul class="team-list">
+            <li>Kasper Achten</li>
+            <li>Wannes De Keyzer</li>
+            <li>Tuur Van Steenbrugge</li>
+            <li>Celien De Paepe</li>
+          </ul>
+        </div>
+
+        <div class="intro-text">
+          <h2>Inleiding</h2>
+          <p>
+            Wij zijn vier studenten aan HOGENT binnen de opleiding Vastgoed, afstudeerrichting Landmeten. In het kader van ons internationaal project trokken we naar de regio rond Nafplio in Griekenland, waar we verschillende historische en landschappelijke sites digitaal in kaart hebben gebracht.
+          </p>
+          <p>
+            Tijdens dit project maakten we gebruik van fotogrammetrie, dronebeelden en laserscanning om de bezochte locaties zo nauwkeurig mogelijk vast te leggen. Op basis van deze gegevens werden puntenwolken en 3D-modellen opgebouwd, waarmee de sites digitaal kunnen worden bekeken en onderzocht.
+          </p>
+          <p>
+            Via deze website willen we de resultaten van ons werk delen. U vindt hier een overzicht van de opgemeten locaties en de bijhorende 3D-modellen. Zo kan u de verschillende sites op een toegankelijke en visuele manier ontdekken.
+          </p>
+          <a class="viewer-link" href="/kaart.html">Bekijk interactieve kaart</a>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="sites-title">Overzicht van de bezochte sites</h2>
+
+    <!-- D1 -->
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="/fotos/dag1_kapel.jpeg" alt="Groep D - D1 The Monastery of the Metamorphosis" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D1 – The Monastery of the Metamorphosis</h3>
+        <p>
+          Net buiten de levendige kustsfeer van Tolo ligt een plek waar de tijd even lijkt stil te staan: The Monastery of the Metamorphosis. Verscholen tussen de heuvels, met zicht op het ruwe landschap van de Argolische regio, vormt dit klooster een bijzonder contrast met de drukte van het nabijgelegen vissersdorp.
+        </p>
+        <p>
+          De site straalt eenvoud en rust uit. De witte muren, de natuurlijke rotsformaties en het omliggende groen zorgen samen voor een bijna schilderachtig beeld. Het klooster lijkt niet zomaar in het landschap geplaatst, maar er echt mee verweven. Net die combinatie van religieuze architectuur en ongerepte natuur maakt de plek zo bijzonder.
+        </p>
+        <p>
+          Wie deze locatie bekijkt, ontdekt meer dan alleen een gebouw. Het is een stille getuige van de Grieks-orthodoxe traditie, ingebed in een landschap dat tegelijk sober, krachtig en indrukwekkend aanvoelt. Dankzij de digitale weergave krijgt de bezoeker de kans om deze verborgen plek nabij Tolo van dichtbij te ervaren, ook zonder er fysiek aanwezig te zijn.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D1_KAPEL.html">Bekijk 3D model</a>
+      </div>
+    </section>
+
+    <!-- D2 -->
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D2 – The Caves of the Twin Dolines in Didyma</h3>
+        <p>
+          Verborgen in het landschap nabij het dorp Didyma liggen de indrukwekkende Caves of the Twin Dolines. Op het eerste gezicht lijkt de omgeving rustig en onopvallend, maar wie dichterbij komt, ontdekt plots twee enorme natuurlijke inzinkingen die als kraters in de aarde liggen verscholen.
+        </p>
+        <p>
+          Deze bijzondere plek voelt bijna onwerkelijk aan. Steile rotswanden, groene begroeiing en smalle doorgangen vormen samen een landschap dat tegelijk ruw en mysterieus is. In de rotsen bevinden zich kleine kapellen, waardoor natuur en religie hier op een unieke manier samenkomen. De stilte in de dolines geeft de site een bijzondere sfeer, alsof je een verborgen wereld betreedt.
+        </p>
+        <p>
+          De naam Didyma, die verwijst naar "tweeling", past perfect bij deze locatie. De twee dolines vormen samen een opvallend natuurfenomeen dat meteen de aandacht trekt. Dankzij de digitale weergave kan de bezoeker deze uitzonderlijke plek van dichtbij ontdekken en zich laten meevoeren door de combinatie van natuurkracht, verborgen erfgoed en Griekse traditie.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D2_KRATER.html">Bekijk 3D model</a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="/fotos/dag2_Caves_of_the_Twins_Dolines.jpeg" alt="Groep D - D2 Caves of the Twin Dolines" class="site-image">
+      </div>
+    </section>
+
+    <!-- D3 -->
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="/fotos/dag3_station1.jpeg" alt="Groep D - D3 Nemea Railway Station" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D3 – Nemea Railway Station</h3>
+        <p>
+          Op ongeveer een uur rijden van Tolo ligt het oude Nemea Railway Station, een verlaten station dat meteen de sfeer oproept van een ander tijdperk. Waar vroeger reizigers en goederen door de Peloponnesos trokken, overheersen vandaag stilte, verweerde sporen en een bijna filmisch landschap.
+        </p>
+        <p>
+          Het stationsgebouw en de oude rails vormen samen een bijzondere plek waar geschiedenis en verval elkaar ontmoeten. De natuur neemt het terrein langzaam terug over, waardoor het station een mysterieuze en authentieke uitstraling krijgt.
+        </p>
+        <p>
+          Deze locatie nodigt uit om even stil te staan bij het vroegere spoorwegverleden van de regio en vormt tegelijk een opvallend contrast met de drukkere toeristische plekken langs de kust.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D3_STATION.html">Bekijk 3D model</a>
+      </div>
+    </section>
+
+    <!-- D4 -->
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D4 – Church of Panagia Katakekrymeni</h3>
+        <p>
+          Verscholen tussen de rotsen nabij Nafplio ligt Panagia Katakekrymeni, een kleine kerk met een bijzonder stille en ingetogen sfeer. Door haar ligging lijkt de plek bijna verborgen in het landschap, weg van de drukte van de kust en de stad.
+        </p>
+        <p>
+          De combinatie van ruwe rotswanden, eenvoudige religieuze architectuur en het uitzicht op de omgeving maakt deze locatie uniek. Het is een plaats die rust uitstraalt en tegelijk nieuwsgierigheid opwekt, alsof je een verborgen stukje Grieks erfgoed ontdekt.
+        </p>
+        <p>
+          Panagia Katakekrymeni toont hoe natuur, geloof en landschap in Griekenland vaak nauw met elkaar verbonden zijn. Juist dat maakt deze site zo aantrekkelijk om digitaal te verkennen.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D4_GROT_KAPEL.html">Bekijk 3D model</a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="/fotos/dag4_grot_kapel.jpeg" alt="Groep D - D4 Panagia Katakekrymeni" class="site-image">
+      </div>
+    </section>
+
+    <!-- D5 -->
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="/fotos/dag5_station.jpeg" alt="Groep D - D5 Het oude treinstation van Myloi" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D5 – Het oude treinstation van Myloi</h3>
+        <p>
+          Op dag 5 brachten we het oude treinstation van Myloi in beeld, een verlaten spoorwegsite nabij Nafplio. De plek ademt geschiedenis: oude perrons, verweerde rails en vervallen gebouwen herinneren aan een periode waarin het station een belangrijke schakel vormde in het regionale treinverkeer van de Peloponnesos.
+        </p>
+        <p>
+          Wat deze locatie extra bijzonder maakt, zijn de verlaten treinen die nog steeds op het terrein staan. Tussen de wagons bevindt zich ook een oude stoomlocomotief, waardoor de site een bijna museale, maar tegelijk mysterieuze uitstraling krijgt.
+        </p>
+        <p>
+          Vandaag is Myloi Railway Station een plek waar verval, graffiti en spoorwegerfgoed samenkomen. Net die combinatie maakt de site aantrekkelijk om te verkennen en geeft de digitale weergave een unieke sfeer.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D5_TRAIN_STATION.html">Bekijk 3D model</a>
+      </div>
+    </section>
+
+    <!-- D6 -->
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D6 – Oude graftombes nabij Tolo</h3>
+        <p>
+          In de heuvelachtige omgeving rond Tolo bevinden zich oude graftombes die deels verscholen liggen onder aarde, stenen en begroeiing. Op het eerste gezicht vallen ze nauwelijks op, maar wie beter kijkt, herkent nog duidelijk de sporen van vroegere grafstructuren.
+        </p>
+        <p>
+          De openingen in de rots, uitgegraven kamers en verzonken vormen tonen dat deze plek ooit een funerair karakter had. Net doordat de tombes vandaag deels overgroeid en verweerd zijn, krijgt de site een mysterieuze uitstraling.
+        </p>
+        <p>
+          Deze locatie laat zien hoe historische begraafplaatsen in het landschap werden geïntegreerd. De combinatie van archeologische sporen, natuurlijke begroeiing en stilte maakt de graftombes tot een intrigerende plek om digitaal te ontdekken.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_B_D6_TOMBES.html">Bekijk 3D model</a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="/fotos/dag6_tombes.jpeg" alt="Groep D - D6 Oude graftombes nabij Tolo" class="site-image">
+      </div>
+    </section>
+
+    <!-- D7 -->
+    <section class="site-block">
+      <div class="site-image-wrap">
+        <img src="/fotos/dag7_Nafplio.jpeg" alt="Groep D - D7 Stadswandeling Nafplio" class="site-image">
+      </div>
+      <div class="site-text">
+        <h3>D7 – Stadswandeling langs de Ottomaanse fonteinen van Nafplio</h3>
+        <p>
+          Deze stadswandeling neemt de bezoeker mee door het historische centrum van Nafplio, langs verschillende Ottomaanse fonteinen en architecturale details die herinneren aan het rijke verleden van de stad. De route brengt zeven locaties in beeld, telkens gekoppeld aan foto's die de fonteinen en hun omgeving duidelijk tonen.
+        </p>
+        <p>
+          De kaart vormt zo een visuele gids doorheen de oude stad, waarbij erfgoed, stadsstructuur en kleine verborgen elementen samenkomen. Ze nodigt uit om Nafplio op een andere manier te bekijken: niet alleen als sfeervolle kuststad, maar ook als plaats waar verschillende historische lagen nog zichtbaar aanwezig zijn in het straatbeeld.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D7_NAFPLIO.html">Bekijk Kaart</a>
+      </div>
+    </section>
+
+    <!-- D8 -->
+    <section class="site-block reverse">
+      <div class="site-text">
+        <h3>D8 – Pyramid of Elliniko</h3>
+        <p>
+          Tussen de heuvels van Argolis ligt de mysterieuze Pyramid of Elliniko, een opvallende stenen constructie die meteen de nieuwsgierigheid wekt. Door haar schuine muren en compacte vorm doet het bouwwerk denken aan een kleine piramide, maar haar exacte functie blijft tot vandaag niet helemaal duidelijk.
+        </p>
+        <p>
+          Mogelijk werd de constructie gebruikt als wachttoren, verdedigingspost of grafmonument. Net die onzekerheid maakt de site zo boeiend: ze laat ruimte voor verbeelding en nodigt uit om verder te kijken dan de klassieke Griekse tempels en ruïnes.
+        </p>
+        <p>
+          De Pyramid of Elliniko is een stille getuige van een oud landschap waarin routes, nederzettingen en verdedigingspunten met elkaar verbonden waren. Vandaag vormt ze een unieke en intrigerende plek om digitaal te ontdekken.
+        </p>
+        <a class="viewer-link" href="https://samenwerkinginternationaal.one/GROEP_D_D8_PYRAMID.html">Bekijk 3D model</a>
+      </div>
+      <div class="site-image-wrap">
+        <img src="/fotos/dag8_pyramide.jpeg" alt="Groep D - D8 Pyramid of Elliniko" class="site-image">
+      </div>
+    </section>
+
+  </div>
+
+  <script src="/menu.js"></script>
+</body>
+</html>
